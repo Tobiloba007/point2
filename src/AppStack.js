@@ -12,13 +12,18 @@ import CreateNewPassword from './screens/auth/CreateNewPassword';
 import ResetSuccess from './screens/auth/ResetSuccess';
 import ViewDetailsPage from './screens/ViewDetailsPage';
 import RateRider from './screens/RateRider';
+import Tracking from './screens/Tracking';
+import ChatBox from './screens/ChatBox';
+import PickUpDetails from './screens/PickUpDetails';
+import DeliveryLocation from './screens/DeliveryLocation';
+import SendPackageSuccess from './screens/SendPackageSuccess';
 
 const Stack = createStackNavigator();
 
 const AppStack = () => {
 
   return (
-    <Stack.Navigator initialRouteName="splash1">
+    <Stack.Navigator initialRouteName="tab">
       <Stack.Screen name="splash1" component={Splash1} options={{headerShown: false}} />
       <Stack.Screen name="splash2" component={Splash2} options={{headerShown: false}} />
       <Stack.Screen name="login" component={Login} options={{headerShown: false}} />
@@ -32,6 +37,11 @@ const AppStack = () => {
       <Stack.Screen name="tab" component={Tab} options={{headerShown: false}} />
       <Stack.Screen name="viewDetailsPage" component={ViewDetailsPage} options={{headerShown: false}} />
       <Stack.Screen name="rateRider" component={RateRider} options={{headerShown: false}} />
+      <Stack.Screen name="tracking" component={Tracking} options={{headerShown: false}} />
+      <Stack.Screen name="chatBox" component={ChatBox} options={{headerShown: false}} />
+      <Stack.Screen name="pickUpDetails" component={PickUpDetails} options={{headerShown: false}} />
+      <Stack.Screen name="deliveryLocation" component={DeliveryLocation} options={{headerShown: false}} />
+      <Stack.Screen name="sendPackageSuccess" component={SendPackageSuccess} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 };

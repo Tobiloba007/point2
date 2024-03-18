@@ -208,9 +208,9 @@ export default function ViewDetailsPage() {
 
            {/* BUTTON */}
            <View className="flex items-center justify-center mt-14">
-               <TouchableOpacity onPress={()=>navigation.navigate('rateRider')}
+               <TouchableOpacity onPress={()=>navigation.navigate('tracking')}
                className="flex items-center justify-center h-12 w-full rounded-lg bg-[#0077B6]">
-                   <Text className={`text-base font-[bold] text-white`}>Rate Rider</Text>
+                   <Text className={`text-base font-[bold] text-white`}>Live Tracking</Text>
                </TouchableOpacity>
            </View>
 

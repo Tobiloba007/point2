@@ -16,6 +16,7 @@ import ProfilePage from './ProfilePage'
 import { AntDesign } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import DeleteModal from '../components/profilePage/DeleteModal'
+import SendPackage from './SendPackage'
 
 
 export default function Tab() {
@@ -37,12 +38,13 @@ export default function Tab() {
               tab === 'Home' ? <HomePage setInputModal={setInputModal} />
             : tab === 'Activity' ? <ActivityPage />
             : tab === 'Notification' ? <NotificationPage />
-            : tab === 'Profile' && <ProfilePage setDeleteCard={setDeleteCard} />
+            : tab === 'Profile' ? <ProfilePage setDeleteCard={setDeleteCard} />
+            : tab === 'Package' && <SendPackage />
            }
         </View>
 
 
-        <View className="flex flex-row items-center justify-between w-full">
+        <View className="flex flex-row items-center justify-between w-full bg-white pt-2 shadow-2xl shadow-slate-950">
             <TouchableOpacity onPress={()=>handleTab('Home')} 
             className="flex items-center justify-center w-[20%]">
                {
@@ -59,7 +61,8 @@ export default function Tab() {
                <Text className={`text-xs text-[${tab === 'Activity' ? '#0077B6' : '#475467'}] font-['regular'] mt-2`}>Activity</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="flex items-center justify-center h-[55px] w-[55px] rounded-full bg-[#CCE4F0] p-[3px] mb-9">
+            <TouchableOpacity onPress={()=>handleTab('Package')} 
+            className="flex items-center justify-center h-[55px] w-[55px] rounded-full bg-[#CCE4F0] p-[3px] mb-9">
                 <View className="flex items-center justify-center h-full w-full rounded-full bg-[#0077B6]">
                     <Ionicons name="add-outline" size={18} color="#CCE4F0" />
                 </View>
