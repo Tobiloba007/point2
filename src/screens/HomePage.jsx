@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native'
 import React from 'react'
 import Location from '../../assets/icon/location.svg'
 import Box from '../../assets/icon/box.svg'
@@ -9,15 +9,18 @@ import RecentOrders from '../components/splash/homePage/RecentOrders'
 
 export default function HomePage({setInputModal}) {
   return (
-    <View className="flex-1 items-center justify-start px-5">
+    <ScrollView 
+    contentContainerStyle={{display: 'flex-1', alignItems: 'center', justifyContent: 'flex-start', paddingHorizontal: 20, paddingBottom: 40}}
+    showsVerticalScrollIndicator={false}
+    >
           {/* LOCATION */}
         <View className="flex flex-row items-center justify-start w-full">
              <TouchableOpacity className="flex items-center justify-center w-[44px] h-[44px] bg-[#EBF8FF] rounded-lg">
                 <Location width={20.6} height={26.12} />
              </TouchableOpacity>
-             <View className="flex items-start justify-center ml-3">
+             <View className="flex flex-1 items-start justify-center ml-3">
                  <Text className={`text-sm text-[#475467] font-['medium]`}>
-                     Location
+                     Locations
                  </Text>
                  <Text className={`text-sm text-[#101828] font-['bold'] pt-1`}>
                      Set Location
@@ -75,6 +78,6 @@ export default function HomePage({setInputModal}) {
            <RecentOrders />
         </View>
 
-    </View>
+    </ScrollView>
   )
 }

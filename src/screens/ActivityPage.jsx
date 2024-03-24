@@ -69,7 +69,10 @@ export default function ActivityPage() {
           </ScrollView>
          </View>
 
-         <ScrollView showsVerticalScrollIndicator={false}>
+         <ScrollView
+         contentContainerStyle={{paddingBottom: 40}} 
+         showsVerticalScrollIndicator={false}
+         >
          {
           active === 1
           ? <All />

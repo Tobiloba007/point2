@@ -13,7 +13,7 @@ export default function Login() {
     const navigation = useNavigation();
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-start px-5">
+    <SafeAreaView className="flex-1 items-center justify-start px-5 pt-8">
 
     <TouchableOpacity onPress={()=>navigation.goBack()}
     className="flex flex-row items-center justify-start w-full">

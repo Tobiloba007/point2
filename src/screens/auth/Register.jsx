@@ -15,7 +15,7 @@ export default function Register() {
     const screenWidth = Dimensions.get('window').width;
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-start bg-white">
+    <SafeAreaView className="flex-1 items-center justify-start bg-white pt-8">
 
         <TouchableOpacity onPress={()=>navigation.goBack()}
         className="flex flex-row items-center justify-start w-full px-5 pb-3">

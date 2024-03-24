@@ -21,7 +21,7 @@ export default function ViewDetailsPage() {
     const navigation = useNavigation();
 
   return (
-    <SafeAreaView className="flex items-start justify-start w-full h-full bg-white px-5">
+    <SafeAreaView className="flex items-start justify-start w-full h-full bg-white px-5 pt-8">
             {/*HEADER */}
         <View className='relative flex flex-row items-center justify-center w-full bg-white pb-7 shadow-2xl'>
              <TouchableOpacity onPress={()=>navigation.goBack()}

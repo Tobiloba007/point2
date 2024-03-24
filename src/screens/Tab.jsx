@@ -31,7 +31,7 @@ export default function Tab() {
   }
 
   return (
-    <View className="flex-1 justify-end w-full bg-white">
+    <View className="flex-1 justify-end w-full bg-white pt-8">
        <StatusBar backgroundColor="#EBF8FF" barStyle="dark-content" />
         <View className='flex-1'>
            {

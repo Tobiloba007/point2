@@ -25,7 +25,7 @@ export default function ProfilePage({setDeleteCard}) {
       name: 'Manage Cards',
     },
     {
-      id: 3,
+      id: 0,
       icon: <Warning />,
       name: 'Privacy & Policy',
     },

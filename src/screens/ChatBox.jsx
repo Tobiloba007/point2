@@ -23,7 +23,7 @@ export default function ChatBox() {
     const ScreenWidth = Dimensions.get('window').width;
 
   return (
-    <SafeAreaView className="flex items-center justify-start w-full h-full bg-white">
+    <SafeAreaView className="flex items-center justify-start w-full h-full bg-white pt-5">
       <StatusBar backgroundColor="#EBF8FF" barStyle="dark-content" />
             {/*BACK BUTTON */}
         <View className='relative flex flex-row items-center justify-center w-full bg-white pb-7 shadow-2xl'>

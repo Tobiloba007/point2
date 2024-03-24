@@ -13,7 +13,7 @@ export default function DeliveryLocation() {
 
 
   return (
-    <SafeAreaView className="flex items-start justify-start w-full h-full bg-white">
+    <SafeAreaView className="flex items-start justify-start w-full h-full bg-white pt-8">
             {/*HEADER */}
         <View className='relative flex items-start justify-start w-full bg-white pb-1 shadow-2xl px-5'>
              <TouchableOpacity onPress={()=>navigation.goBack()}

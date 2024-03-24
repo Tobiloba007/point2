@@ -53,7 +53,7 @@ export default function VerifyOtp() {
 
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-start px-5 bg-white">
+    <SafeAreaView className="flex-1 items-center justify-start px-5 bg-white pt-8">
 
     <TouchableOpacity onPress={()=>navigation.goBack()}
     className="flex flex-row items-center justify-start w-full">
