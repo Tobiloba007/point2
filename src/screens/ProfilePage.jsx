@@ -37,7 +37,7 @@ export default function ProfilePage({setDeleteCard}) {
   ]
 
   return (
-    <SafeAreaView className='flex-1 items-center justify-start'>
+    <SafeAreaView className='flex-1 items-center justify-start pt-8'>
         {pages === 0
          ? <Profile buttons={buttons} setPages={setPages} />
          : pages === 1 

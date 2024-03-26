@@ -42,7 +42,7 @@ export default function NotificationPage() {
   }
 
   return (
-    <View className="flex-1 items-center justify-start w-full bg-white px-5">
+    <View className="flex-1 items-center justify-start w-full bg-white px-5 pt-8">
          <Text className={`text-lg text-[#344054] font-['bold']`}>Notifications</Text>
 
 

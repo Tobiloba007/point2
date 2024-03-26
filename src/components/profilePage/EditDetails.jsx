@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, Dimensions } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, Dimensions, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -8,11 +8,27 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function EditDetails({setPages}) {
   const [eye, setEye] = useState(false)
+  const [firstName, setFirstName] = useState('JOhn')
+  const [lastName, setLastName] = useState('Doe')
+  const [phone, setPhone] = useState('8080529118')
+  const [email, setEmail] = useState('Doe@gmail.com')
+
+
     const navigation = useNavigation();
 
     const screenWidth = Dimensions.get('window').width;
 
+    const values = {'first_name': firstName, 'last_name': lastName, 'phone': phone, 'email': email}
+
+    const handleSubmit = () => {
+      setPages(0)
+      // console.log(values);
+    }
+
   return (
+    <ScrollView contentContainerStyle={{width: screenWidth, paddingBottom: 40}}
+      showsVerticalScrollIndicator={false}
+      >
     <View className="flex items-start justify-start w-full bg-white px-5">
 
         <View className='relative flex flex-row items-center justify-center w-full mt-3'>
@@ -30,9 +46,12 @@ export default function EditDetails({setPages}) {
               {/* FIRST NAME */}
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>First Name</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-5"
+                  <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
+                  text-[#344054] pl-5`}
                   placeholder='First Name'
                   placeholderTextColor={'#667085'}
+                  value={firstName}
+                  onChangeText={(text)=>setFirstName(text)}
                   keyboardType='default'
                   />
             </View>
@@ -43,6 +62,8 @@ export default function EditDetails({setPages}) {
                   <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-5"
                   placeholder='Last Name'
                   placeholderTextColor={'#667085'}
+                  value={lastName}
+                  onChangeText={(text)=>setLastName(text)}
                   keyboardType='default'
                   />
             </View>
@@ -53,6 +74,8 @@ export default function EditDetails({setPages}) {
                   <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-[87px]"
                   placeholder='90722245789'
                   placeholderTextColor={'#667085'}
+                  value={phone}
+                  onChangeText={(text)=>setPhone(text)}
                   keyboardType='number-pad'
                   />
                   <View className="absolute bottom-[13px] left-4 flex flex-row items-center justify-start">
@@ -67,6 +90,8 @@ export default function EditDetails({setPages}) {
                   <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-14"
                   placeholder='example@mail.com'
                   placeholderTextColor={'#667085'}
+                  value={email}
+                  onChangeText={(text)=>setEmail(text)}
                   keyboardType='email-address'
                   />
                   <View className="absolute bottom-[13px] left-4 flex flex-row items-center justify-start">
@@ -76,7 +101,7 @@ export default function EditDetails({setPages}) {
 
               {/* BUTTON */}
             <View className="flex items-center justify-center w-full mt-24">
-                  <TouchableOpacity onPress={()=>navigation.navigate('verifyAccount')} 
+                  <TouchableOpacity onPress={handleSubmit} 
                   className="flex items-center justify-center h-12 w-full rounded-lg bg-[#0077B6]">
                       <Text className={`text-base font-[bold] text-white`}>Save Changes</Text>
                   </TouchableOpacity>
@@ -86,5 +111,6 @@ export default function EditDetails({setPages}) {
 
 
     </View>
+    </ScrollView>
   )
 }

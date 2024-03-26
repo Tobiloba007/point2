@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import OrderSummary from '../components/sendPackage/OrderSummary';
 
 
-export default function SendPackage() {
+export default function SendPackage({setTab}) {
     const details = [
         {
             id: 1,
@@ -49,10 +49,10 @@ export default function SendPackage() {
     }
 
   return (
-    <SafeAreaView className="flex items-start justify-start w-full h-full bg-white px-5">
+    <SafeAreaView className="flex items-start justify-start w-full h-full bg-white px-5 pt-8">
             {/*HEADER */}
         <View className='relative flex items-start justify-start w-full bg-white pb-1 shadow-2xl'>
-             <TouchableOpacity onPress={()=>navigation.goBack()}
+             <TouchableOpacity onPress={()=>setTab('Home')}
              className="absolute left-0 flex flex-row items-center justify-start w-full">
                    <Feather name="arrow-left" size={18} color="#344054" />
                    <Text className={`text-xs text-[#344054] font-['medium'] pl-2 pb-[2px]`}>Back</Text>

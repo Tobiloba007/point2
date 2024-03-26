@@ -7,15 +7,17 @@ import Send from '../../assets/icon/send.svg'
 import Gift from '../../assets/icon/giftPackage.svg'
 import RecentOrders from '../components/splash/homePage/RecentOrders'
 
-export default function HomePage({setInputModal}) {
+export default function HomePage({setInputModal, setTab, location}) {
   return (
     <ScrollView 
     contentContainerStyle={{display: 'flex-1', alignItems: 'center', justifyContent: 'flex-start', paddingHorizontal: 20, paddingBottom: 40}}
     showsVerticalScrollIndicator={false}
     >
           {/* LOCATION */}
-        <View className="flex flex-row items-center justify-start w-full">
-             <TouchableOpacity className="flex items-center justify-center w-[44px] h-[44px] bg-[#EBF8FF] rounded-lg">
+        <TouchableOpacity onPress={()=>setInputModal(true)}
+        className="flex flex-row items-center justify-start w-full pt-8">
+             <TouchableOpacity onPress={()=>setInputModal(true)}
+             className="flex items-center justify-center w-[44px] h-[44px] bg-[#EBF8FF] rounded-lg">
                 <Location width={20.6} height={26.12} />
              </TouchableOpacity>
              <View className="flex flex-1 items-start justify-center ml-3">
@@ -23,10 +25,10 @@ export default function HomePage({setInputModal}) {
                      Locations
                  </Text>
                  <Text className={`text-sm text-[#101828] font-['bold'] pt-1`}>
-                     Set Location
+                     {location === "" ? "Set Location" : location}
                  </Text>
              </View>
-        </View>
+        </TouchableOpacity>
 
            {/* TRACK YOUR PACKAGE */}
         <View className="flex items-start justify-center w-full bg-[#EBF8FF] rounded-xl p-4 mt-8">
@@ -56,7 +58,7 @@ export default function HomePage({setInputModal}) {
                 <Text className={`text-xl text-[#EBF8FF] font-['bold'] pt-1`}>
                     Send a Package           
                 </Text>
-                <TouchableOpacity onPress={()=>setInputModal(true)}
+                <TouchableOpacity onPress={()=>setTab('Package')}
                 className="flex flex-row items-center justify-center w-[135px] h-[34px] bg-[#EBF8FF] rounded-lg mt-2">
                    <Text className={`text-xs text-[#0077B6] font-['bold']`}>
                       Request Pickup        

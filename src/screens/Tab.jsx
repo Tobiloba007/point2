@@ -23,6 +23,7 @@ export default function Tab() {
   const [tab, setTab] = useState('Home')
   const [inputModal, setInputModal] = useState(false)
   const [deleteCard, setDeleteCard] = useState(false)
+  const [location, setLocation] = useState('')
 
 
   const handleTab = (active) => {
@@ -31,15 +32,15 @@ export default function Tab() {
   }
 
   return (
-    <View className="flex-1 justify-end w-full bg-white pt-8">
+    <View className="flex-1 justify-end w-full bg-white">
        <StatusBar backgroundColor="#EBF8FF" barStyle="dark-content" />
         <View className='flex-1'>
            {
-              tab === 'Home' ? <HomePage setInputModal={setInputModal} />
+              tab === 'Home' ? <HomePage setInputModal={setInputModal} setTab={setTab} location={location} />
             : tab === 'Activity' ? <ActivityPage />
             : tab === 'Notification' ? <NotificationPage />
             : tab === 'Profile' ? <ProfilePage setDeleteCard={setDeleteCard} />
-            : tab === 'Package' && <SendPackage />
+            : tab === 'Package' && <SendPackage setTab={setTab} />
            }
         </View>
 
@@ -108,13 +109,15 @@ export default function Tab() {
               </View>
 
               <View className="relative items-start justify-start w-full mt-5">
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-sm font-['regular'] text-[#98A2B3] pl-14"
+                  <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-sm font-['regular'] 
+                                       text-[#1D2939] pl-14 ${location && 'border-[#0077B6]'}`}
                   placeholder='street no, b/stop'
                   placeholderTextColor={'#667085'}
-                  keyboardType='default'
+                  value={location}
+                  onChangeText={(text)=>setLocation(text)}
                   />
                   <View className="absolute bottom-[13px] left-5 flex flex-row items-center justify-start">
-                       <Fontisto name="search" size={22} color="#98A2B3" />
+                       <Fontisto name="search" size={22} color={location ? '#0077B6' : '#98A2B3'} />
                   </View>
               </View>
 

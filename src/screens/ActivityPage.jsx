@@ -44,7 +44,7 @@ export default function ActivityPage() {
   }
 
   return (
-    <View className="flex-1 items-center justify-start w-full bg-white">
+    <View className="flex-1 items-center justify-start w-full bg-white pt-8">
 
          <Text className={`text-lg text-[#344054] font-['bold']`}>Activity</Text>
 

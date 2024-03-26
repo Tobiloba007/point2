@@ -5,14 +5,34 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Eye from '../../../assets/icon/eye.svg'
 import EyeSlash from '../../../assets/icon/eye-slash.svg'
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 
+const SignupSchema = Yup.object().shape({
+  first_name: Yup.string().min(3).max(50).required(),
+  last_name: Yup.string().min(3).max(50).required(),
+  phone_number: Yup.string().required().matches(/^(80|81|90|70|91)\d{8}$/),
+  email: Yup.string().email("Invalid email").required(),
+  password: Yup.string()
+    .min(8)
+    .required()
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/),
+    password_confirmation: Yup.string()
+    .required('Confirm Password is required')
+    .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+});
 
 export default function Register() {
   const [eye, setEye] = useState(false)
     const navigation = useNavigation();
 
     const screenWidth = Dimensions.get('window').width;
+
+    const handleSubmit = async (values) => {
+      navigation.navigate('verifyAccount')
+      // console.log(values)
+    }
 
   return (
     <SafeAreaView className="flex-1 items-center justify-start bg-white pt-8">
@@ -37,16 +57,43 @@ export default function Register() {
         </View>
 
 
+        <Formik
+          initialValues={{
+            first_name: "",
+            last_name: "",
+            phone_number: "",
+            email: "",
+            password: "",
+            password_confirmation: "",
+          }}
+          validationSchema={SignupSchema}
+          onSubmit={handleSubmit}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            setFieldTouched,
+            isValid,
+            handleSubmit,
+          }) => (
         <KeyboardAvoidingView className="flex items-center justify-start w-full mt-4">
               {/* PHONE */}
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Phone number</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-[87px]"
+                  <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular']
+                   text-[#344054] pl-[87px] ${touched.phone_number && errors.phone_number && 'border-red-500'} 
+                   ${touched.phone_number && !errors.phone_number && 'border-[#0077B6]'}`}
                   placeholder='90722245789'
                   placeholderTextColor={'#667085'}
+                  values={values.phone_number}
+                  onChangeText={handleChange("phone_number")}
+                  onBlur={() => setFieldTouched("phone_number")}
                   keyboardType='number-pad'
                   />
-                  <View className="absolute bottom-[13px] left-4 flex flex-row items-center justify-start">
+                  {touched.phone_number && errors.phone_number && <Text className='text-red-500 text-[10px] pt-1'>invalid phone number format</Text>}
+                  <View className="absolute top-14 left-4 flex flex-row items-center justify-start">
                       <Text className={`text-base text-[#101828] font-['regular'] mr-1`}>+234</Text>
                       <SimpleLineIcons name="arrow-down" size={12} color="#667085" />
                   </View>
@@ -55,12 +102,18 @@ export default function Register() {
               {/* EMAIL */}
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Email Address</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-14"
+                  <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
+                  text-[#344054] pl-14 ${touched.email && errors.email && 'border-red-500'} 
+                  ${touched.email && !errors.email && 'border-[#0077B6]'}`}
                   placeholder='example@mail.com'
                   placeholderTextColor={'#667085'}
+                  values={values.email}
+                  onChangeText={handleChange("email")}
+                  onBlur={() => setFieldTouched("email")}
                   keyboardType='email-address'
                   />
-                  <View className="absolute bottom-[13px] left-4 flex flex-row items-center justify-start">
+                  {touched.email && errors.email && <Text className='text-red-500 text-[10px] pt-1'>invalid email format</Text>}
+                  <View className="absolute top-14 left-4 flex flex-row items-center justify-start">
                       <Feather name="mail" size={22} color="#667085" />
                   </View>
             </View>
@@ -68,33 +121,55 @@ export default function Register() {
               {/* FIRST NAME */}
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>First Name</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-5"
+                  <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
+                  text-[#344054] pl-5 ${touched.first_name && errors.first_name && 'border-red-500'} 
+                  ${touched.first_name && !errors.first_name && 'border-[#0077B6]'}`}
                   placeholder='First Name'
                   placeholderTextColor={'#667085'}
+                  values={values.first_name}
+                  onChangeText={handleChange("first_name")}
+                  onBlur={() => setFieldTouched("first_name")}
                   keyboardType='default'
                   />
+                  {touched.first_name && errors.first_name && 
+                    <Text className='text-red-500 text-[10px] pt-1'>minimum of 2 letters</Text>}
             </View>
 
               {/* LAST NAME */}
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Last Name</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-5"
+                  <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
+                  text-[#344054] pl-5 ${touched.last_name && errors.last_name && 'border-red-500'} 
+                  ${touched.last_name && !errors.last_name && 'border-[#0077B6]'}`}
                   placeholder='Last Name'
                   placeholderTextColor={'#667085'}
+                  values={values.last_name}
+                  onChangeText={handleChange("last_name")}
+                  onBlur={() => setFieldTouched("last_name")}
                   keyboardType='default'
                   />
+                  {touched.last_name && errors.last_name && 
+                    <Text className='text-red-500 text-[10px] pt-1'>minimum of 2 letters</Text>}
             </View>
 
               {/* PASSWORD */}
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Password</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-5"
+                  <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular']
+                   text-[#344054] pl-5 ${touched.password && errors.password && 'border-red-500'} 
+                   ${touched.password && !errors.password && 'border-[#0077B6]'}`}
                   placeholder='********'
                   placeholderTextColor={'#667085'}
+                  values={values.password}
+                  onChangeText={handleChange("password")}
+                  onBlur={() => setFieldTouched("password")}
                   keyboardType='default'
                   secureTextEntry={eye ? false : true}
                   />
-                  <View  className="absolute bottom-[13px] right-4 flex flex-row items-center justify-start">
+                  {touched.password && errors.password && 
+                    <Text className='text-red-500 text-[10px] pt-1'>password must contain one of (A-Z), (a-z) and (0-9) with minimum characters of 8</Text>}
+
+                  <View  className="absolute top-14 right-4 flex flex-row items-center justify-start">
                       {eye ? <EyeSlash onPress={()=>setEye(!eye)} /> : <Eye onPress={()=>setEye(!eye)} />}
                   </View>
             </View>
@@ -102,26 +177,37 @@ export default function Register() {
               {/* CONFIRM PASSWORD */}
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Confirm Password</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-5"
+                  <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
+                  text-[#344054] pl-5 ${touched.password_confirmation && errors.password_confirmation && 'border-red-500'} 
+                  ${touched.password_confirmation && !errors.password_confirmation && 'border-[#0077B6]'}`}
                   placeholder='********'
                   placeholderTextColor={'#667085'}
+                  values={values.password_confirmation}
+                  onChangeText={handleChange("password_confirmation")}
+                  onBlur={() => setFieldTouched("password_confirmation")}
                   keyboardType='default'
                   secureTextEntry={eye ? false : true}
                   />
-                  <View  className="absolute bottom-[13px] right-4 flex flex-row items-center justify-start">
+                  {touched.password_confirmation && errors.password_confirmation && 
+                    <Text className='text-red-500 text-[10px] pt-1'>passwords do not match</Text>}
+
+                  <View  className="absolute top-14 right-4 flex flex-row items-center justify-start">
                       {eye ? <EyeSlash onPress={()=>setEye(!eye)} /> : <Eye onPress={()=>setEye(!eye)} />}
                   </View>
             </View>
 
               {/* BUTTON */}
             <View className="flex items-center justify-center w-full mt-20">
-                  <TouchableOpacity onPress={()=>navigation.navigate('verifyAccount')} 
-                  className="flex items-center justify-center h-12 w-full rounded-lg bg-[#0077B6]">
+                  <TouchableOpacity onPress={handleSubmit}
+                  disabled={!isValid}
+                  className={`flex items-center justify-center h-12 w-full rounded-lg bg-[#0077B6] ${!isValid && 'opacity-30'}`}>
                       <Text className={`text-base font-[bold] text-white`}>Create your account</Text>
                   </TouchableOpacity>
             </View>
 
         </KeyboardAvoidingView>
+        )}
+        </Formik>
 
         </ScrollView>
 
