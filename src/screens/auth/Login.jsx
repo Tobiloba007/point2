@@ -68,7 +68,7 @@ export default function Login() {
           }) => (
     <KeyboardAvoidingView className="flex items-center justify-start w-full">
 
-    <View className="relative items-start justify-start w-full mt-10">
+    <View className="relative items-start justify-start w-full mt-7">
           <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Phone number</Text>
           <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] 
           pl-[87px] ${touched.phone_number && errors.phone_number && 'border-red-500'} ${touched.phone_number && !errors.phone_number && 'border-[#0077B6]'}`}
