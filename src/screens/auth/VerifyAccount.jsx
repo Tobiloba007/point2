@@ -85,8 +85,8 @@ export default function VerifyAccount({ route }) {
 
          <View className="relative flex flex-row items-center justify-starrt w-full">
              <Text className={`text-sm text-[#475467] font-['medium'] mt-3`}>Enter the 4-digit code we sent to {email} and
-'             <Text className={`text-sm text-[#475467] font-['bold']`}> {phone}</Text>
-'             <Text onPress={()=>navigation.navigate('')} 
+             <Text className={`text-sm text-[#475467] font-['bold']`}> {phone}</Text>
+             <Text onPress={()=>navigation.navigate('')} 
              className={`text-sm text-[#0077B6] font-['bold']`}> Change Phone number</Text>
              </Text>
          </View>

@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StatusBar, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Camera from '../../../assets/icon/camera.svg'
 import Gift from '../../../assets/icon/giftPackage.svg'
 import User from '../../../assets/icon/user.svg'
@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 
 
 
@@ -31,6 +32,13 @@ export default function Profile({buttons, setPages}) {
     }
   };
 
+  const user = useSelector((state) => state.auth.user)
+
+  // useEffect(()=>{
+  //   console.log(user, 'USER DATA');
+  // },[])
+
+
   return (
     <ScrollView>
     <View className="flex-1 items-center justify-start bg-white px-5">
@@ -38,7 +46,7 @@ export default function Profile({buttons, setPages}) {
 
          <View className='flex flex-row items-center justify-start w-full mt-5'>
               <View className='relative'>
-                   {image === null && 
+                   {user.profile_picture === null && 
                     <View className='flex items-center justify-center h-16 w-16 rounded-full bg-[#F9FAFB]'>
                         <User className='w-20 h-20' />
                     </View>
@@ -51,8 +59,8 @@ export default function Profile({buttons, setPages}) {
               </View>
 
               <View className='flex items-start justify-start ml-5'>
-                  <Text className={`text-lg text-[#1D2939] font-['bold']`}>Jimoh Festus</Text>
-                  <Text className={`text-sm text-[#475467] font-['medium'] pt-1`}>Jimoh007@gmail.com</Text>
+                  <Text className={`text-lg text-[#1D2939] font-['bold']`}>{user.first_name} {user.last_name}</Text>
+                  <Text className={`text-sm text-[#475467] font-['medium'] pt-1`}>{user.email}</Text>
               </View>
          </View>
 

@@ -77,7 +77,7 @@ export default function HomePage({setInputModal, setTab, location}) {
 
         {/* RECENT ORDERS */}
         <View className="flex-1 w-full mt-7">
-           <RecentOrders />
+           <RecentOrders setTab={setTab} />
         </View>
 
     </ScrollView>

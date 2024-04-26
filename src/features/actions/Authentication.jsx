@@ -1,5 +1,6 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setUser } from '../AuthSlice';
 
 
 
@@ -9,6 +10,7 @@ const BASE_URL = 'https://api.test-point2api.online/api'
 // REGISTER ACCOUNT
 export const registerAccount = (values, setLoading, setError, navigation) => async () => {
     setLoading(true)
+    setError('')
         try{
           const response = await axios.post(`${BASE_URL}/auth/register`, values);
           if (response.status === 201) {
@@ -16,7 +18,7 @@ export const registerAccount = (values, setLoading, setError, navigation) => asy
             // console.log(response.data.data.access_token);
             const access_token = response.data.data.access_token
             AsyncStorage.setItem('token', access_token)
-            console.log(access_token)
+            // console.log(access_token)
             navigation.navigate('verifyAccount', { email: values.email, phone: values.phone });
           } else if (response.status !== 201) {
             console.log('Registration failed with status code:', response.status);
@@ -50,6 +52,7 @@ export const verifyAccount = (values, setLoading, setError, navigation) => async
           'Authorization': `Bearer ${loginToken}`,
         };
     setLoading(true)
+    setError('')
         try{
           const response = await axios.post(`${BASE_URL}/auth/verify-token`, values, { headers });
           if (response.status === 200) {
@@ -62,9 +65,9 @@ export const verifyAccount = (values, setLoading, setError, navigation) => async
         } catch(error) {
             if (error.response) {
               // The server responded with an error (e.g., HTTP status code 4xx or 5xx)
-              setError(error.response.data.message)
-              console.log(error.response.data.message)
-              console.error('API Error:', error.response.data.status);
+              setError(error.response.message)
+              console.log(error.response.message)
+              console.error('API Error:', error.response);
             } else if (error.request) {
               // The request was made but no response was received (e.g., network issue)
               setError('Please check your internet connection...')
@@ -78,14 +81,14 @@ export const verifyAccount = (values, setLoading, setError, navigation) => async
 
 
 // LOGIN
-export const loginAction = (values, setLoading, setError, navigation) => async () => {
+export const loginAction = (values, setLoading, setError, navigation) => async (dispatch) => {
     setLoading(true)
     setError('')
         try{
           const response = await axios.post(`${BASE_URL}/auth/login`, values);
           if (response.status === 200) {
-            console.log('login successfull');
-            // console.log(response.data)
+            console.log(response.data.data.user_data)
+            dispatch(setUser(response.data.data.user_data))
             const access_token = response.data.data.access_token
             AsyncStorage.setItem('loginToken', access_token)
             navigation.navigate('tab');
