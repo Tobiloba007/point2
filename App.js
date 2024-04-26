@@ -1,10 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
+
 import { Text, View } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native'
 import AppStack from './src/AppStack';
+import store from './src/store';
+import { Provider } from 'react-redux';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -28,11 +30,13 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-        <View className="flex-1" onLayout={onLayoutRootView}>
-           <AppStack />
-        </View>
-    </NavigationContainer>
+    <Provider store={store}>
+       <NavigationContainer>
+           <View className="flex-1" onLayout={onLayoutRootView}>
+              <AppStack />
+           </View>
+       </NavigationContainer>
+    </Provider>
   );
 }
 

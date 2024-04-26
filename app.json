@@ -22,7 +22,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.michael007.point2"
+      "package": "com.michael007.point2",
+      "googleMapsApiKey": "AIzaSyBBqN-aSPQxao68qfjhmylvyVtccZNcW2E"
     },
     "web": {
       "favicon": "./assets/favicon.png"

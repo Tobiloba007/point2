@@ -1,10 +1,14 @@
-import { Pressable, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { ActivityIndicator, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import OrderSummary from '../components/sendPackage/OrderSummary';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
+import { createOrder, getCharges } from '../features/actions/General';
+
 
 
 export default function SendPackage({setTab}) {
@@ -21,20 +25,21 @@ export default function SendPackage({setTab}) {
             desc: 'Enter Delivery Details',
             link: 'deliveryLocation'
         },
-        // {
-        //     id: 3,
-        //     title: 'Delivery Location 2',
-        //     desc: 'Enter Delivery Details',
-        // },
     ]
 
 
     const navigation = useNavigation();
 
-    const [delivery, setDelivery] = useState('express')
+    const [delivery, setDelivery] = useState('STANDARD_DELIVERY')
     const [payment, setPayment] = useState('card')
     const [whoPays, setWhoPays] = useState('sender')
     const [summary, setSummary] = useState(false)
+    const [pickUp, setPickup] = useState(false);
+    const [deliveryState, setDeliveryState] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
+    const [coupon, setCoupon] = useState('')
+    
 
     hanldeDelivery = (item) => {
         setDelivery(item)
@@ -47,6 +52,26 @@ export default function SendPackage({setTab}) {
     hanldeWhoPays = (item) => {
         setWhoPays(item)
     }
+
+    const deliveryType = {'delivery_type': delivery}
+
+    const dispatch = useDispatch()
+    const pickUpData = useSelector((state) => state.order.pickup)
+    const deliveryData = useSelector((state) => state.order.delivery)
+    const distance = {"km": "7.5"}
+
+    const oderValues = {...pickUpData, ...deliveryData, ...deliveryType, ...distance}
+
+    const values = distance
+
+    handleSummary = () => {
+         dispatch(createOrder(oderValues, setLoading, setError, setSummary))
+         dispatch(getCharges(values, setLoading, setError))
+    }
+
+    const data = useSelector((state) => state.order.orderCharges)
+
+
 
   return (
     <SafeAreaView className="flex items-start justify-start w-full h-full bg-white px-5 pt-8">
@@ -67,8 +92,10 @@ export default function SendPackage({setTab}) {
         <View className='flex items-center justify-start w-full mt-9'>
              {details.map((item) => {
                 return(
-             <TouchableOpacity key={item.id} onPress={()=>navigation.navigate(item.link)}
-                 className='flex flex-row items-start justify-between w-full rounded-lg bg-[#F9FAFB] h-[58px] p-2 px-3 mb-5'>
+             <TouchableOpacity key={item.id} onPress={()=>navigation.navigate(item.link, {setPickup, setDeliveryState})}
+                 className={`flex flex-row items-start justify-between w-full rounded-lg bg-[#F9FAFB]
+                             h-[58px] p-2 px-3 mb-5 ${item.id === 1 && pickUp === true && 'border-[1px] border-[#0077B6] '}
+                             ${item.id === 2 && deliveryState === true && 'border-[1px] border-[#0077B6] '}`}>
                  <View className='flex items-start justify-start'>
                      <Text className={`text-sm text-[#344054] font-['medium']`}>{item.title}</Text>
                      <Text className={`text-xs text-[#667085] font-['medium'] pt-1`}>{item.desc}</Text>
@@ -78,11 +105,11 @@ export default function SendPackage({setTab}) {
              )
              })}
 
-             <TouchableOpacity onPress={()=>navigation.navigate('deliveryLocation')}
+             {/*<TouchableOpacity onPress={()=>navigation.navigate('deliveryLocation')}
               className='flex flex-row items-center justify-between w-full rounded-lg bg-[#D9F2FF] h-[48px] p-2 px-3 mb-5'>
                  <Text className={`text-sm text-[#0077B6] font-['bold']`}>Add New Delivery Location</Text>
                  <Ionicons name="add-circle-outline" size={24} color="#0077B6" />
-             </TouchableOpacity>
+          </TouchableOpacity>*/}
         </View>
 
 
@@ -90,14 +117,14 @@ export default function SendPackage({setTab}) {
         <View className='flex items-start justify-start w-full mt-3'>
              <Text className={`text-sm text-[#344054] font-['bold'] mb-5`}>Delivery type</Text>
 
-             <TouchableOpacity onPress={()=>hanldeDelivery('standard')}
+             <TouchableOpacity onPress={()=>hanldeDelivery('STANDARD_DELIVERY')}
                   className='flex flex-row items-center justify-start mb-4'>
-                  <View className={`h-5 w-5 rounded-full bg-[#D9D9D9] ${delivery === 'standard' && 'bg-[#EBF8FF] border-2 border-[#0077B6]'}`} />
+                  <View className={`h-5 w-5 rounded-full bg-[#D9D9D9] ${delivery === 'STANDARD_DELIVERY' && 'bg-[#EBF8FF] border-2 border-[#0077B6]'}`} />
                   <Text className={`text-sm text-[#344054] font-['medium'] ml-2`}>Standard Delivery</Text>
              </TouchableOpacity>
-             <TouchableOpacity onPress={()=>hanldeDelivery('express')} 
+             <TouchableOpacity onPress={()=>hanldeDelivery('EXPRESS_DELIVERY')} 
                   className='flex flex-row items-center justify-start mb-4'>
-                  <View className={`h-5 w-5 rounded-full bg-[#D9D9D9] ${delivery === 'express' && 'bg-[#EBF8FF] border-2 border-[#0077B6]'}`} />
+                  <View className={`h-5 w-5 rounded-full bg-[#D9D9D9] ${delivery === 'EXPRESS_DELIVERY' && 'bg-[#EBF8FF] border-2 border-[#0077B6]'}`} />
                   <Text className={`text-sm text-[#344054] font-['medium'] ml-2`}>Express Delivery</Text>
              </TouchableOpacity>
         </View>
@@ -139,16 +166,42 @@ export default function SendPackage({setTab}) {
                   <Feather name="plus" size={24} color="#0077B6" />
                   <Text className={`text-sm text-[#0077B6] font-['medium'] ml-2`}>Add new Card</Text>
              </TouchableOpacity>
+
+             {/* COUPON */}
+             <View className='flex flex-row items-center justify-between w-full mt-3'>
+                 <TextInput className={`flex-1 bg-[#F9FAFB] h-9 rounded-lg pl-3 text-sm font-['medium']`}
+                 placeholder='Apply Coupon Code'
+                 placeholderTextColor='#98A2B3'
+                 value={coupon}
+                 onChangeText={(text)=>setCoupon(text)}
+                 />
+                 <TouchableOpacity disabled={coupon === ''}
+                 className={`flex items-center justify-center rounded-lg bg-[#003B5B] h-9 px-4 ml-5  ${coupon === '' && 'opacity-60'}`}>
+                       <Text className={`text-sm text-[#FFFFFF] font-['bold']`}>Apply</Text>
+                 </TouchableOpacity>
+             </View>
         </View>
 
+          {/* ERROR */}
+        <Text className={`text-sm text-red-500 font-['medium'] w-full text-start mt-6`}>{error}</Text>
+
         {/* BUTTON */}
-        <TouchableOpacity onPress={()=>setSummary(true)}
-        className={`flex items-center justify-center h-11 w-full rounded-lg bg-[#0077B6] mt-6 ${summary && 'opacity-30'}`}>
-              <Text className={`text-base text-[#FFFFFF] font-['bold'] ml-2`}>Order Summary</Text>
+        <TouchableOpacity onPress={handleSummary}
+        className={`flex items-center justify-center h-11 w-full rounded-lg bg-[#0077B6] mt-3 ${summary && 'opacity-30'}`}>
+              {loading
+               ?<ActivityIndicator size="large" color="#ffffff" />
+               :<Text className={`text-base text-[#FFFFFF] font-['bold'] ml-2`}>Order Summary</Text>
+              }
         </TouchableOpacity>
 
 
-        {summary && <OrderSummary />}
+        {summary && <OrderSummary 
+                      setTab={setTab}
+                      data={data}  
+                      oderValues={oderValues} 
+                      setPickup={setPickup}
+                      setDeliveryState={setDeliveryState}
+                    />}
 
         </ScrollView>
 

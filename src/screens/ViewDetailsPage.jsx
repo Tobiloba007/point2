@@ -1,5 +1,5 @@
 import { Dimensions, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import Box from '../../assets/icon/box3.svg'
@@ -11,14 +11,20 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 
-export default function ViewDetailsPage() {
-    const [copiedText, setCopiedText] = useState('5654F4DSA545Q');
+export default function ViewDetailsPage({route}) {
+    const { data } = route.params;
+
+    const [copiedText, setCopiedText] = useState(data.package_name);
 
     const copyToClipboard = async () => {
-        await Clipboard.setStringAsync('5654F4DSA545Q');
+        await Clipboard.setStringAsync(data.package_name);
       };
 
     const navigation = useNavigation();
+
+    useEffect(()=>{
+        console.log(data);
+    },[])
 
   return (
     <SafeAreaView className="flex items-start justify-start w-full h-full bg-white px-5 pt-8">
@@ -44,7 +50,7 @@ export default function ViewDetailsPage() {
                     </View>
                     <View className="flex-1 items-start justify-start ml-5">
                          <Text className={`text-sm text-[#344054] font-['bold']`}>
-                              Standing Fan  ( Black )
+                              {data.package_name}
                          </Text>
                          <View className='flex flex-row items-center justify-start'>
                              <Text className={`text-sm text-[#1D2939] font-['regular'] pt-[6px]`}>
@@ -93,7 +99,7 @@ export default function ViewDetailsPage() {
                              From
                          </Text>
                          <Text className={`text-sm text-[#344054] font-['bold'] pt-[2px]`}>
-                             Idumota Store, Orile Agege
+                             {data.pickup_location}
                          </Text>
                     </View>
                 </View>
@@ -105,14 +111,14 @@ export default function ViewDetailsPage() {
                              Shipped to
                          </Text>
                          <Text className={`text-sm text-[#344054] font-['bold'] pt-[2px]`}>
-                             32, Sangodiya Avenue
+                             {data.delivery_point_location}
                          </Text>
                     </View>
                 </View>
 
                 <View className='flex flex-row items-start justify-start w-full mt-8 pb-2 pl-5'>
                     <Text className={`text-sm text-[#344054] font-['bold']`}>
-                        Status: Delivered
+                        Status: {data.status}
                     </Text>
                     <View className="ml-1">
                        <Ionicons name="checkmark-circle-outline" size={20} color="#27AE60" />
@@ -138,7 +144,7 @@ export default function ViewDetailsPage() {
                              Picked Up
                          </Text>
                          <Text className={`text-sm text-[#475467] font-['regular']`}>
-                             pickup adress goes here
+                             {data.pickup_location}
                          </Text>
                     </View>
                  </View>
@@ -198,7 +204,7 @@ export default function ViewDetailsPage() {
                                Delivered
                          </Text>
                          <Text className={`text-sm text-[#475467] font-['regular']`}>
-                              32, Wulemotu Street, Orile Agege
+                              {data.delivery_point_location}
                          </Text>
                     </View>
                  </View>
@@ -207,10 +213,18 @@ export default function ViewDetailsPage() {
 
 
            {/* BUTTON */}
-           <View className="flex items-center justify-center mt-14">
+           {/*<View className="flex items-center justify-center mt-14">
                <TouchableOpacity onPress={()=>navigation.navigate('rateRider')}
                className="flex items-center justify-center h-12 w-full rounded-lg bg-[#0077B6]">
                    <Text className={`text-base font-[bold] text-white`}>Rate Rider</Text>
+               </TouchableOpacity>
+           </View>*/}
+
+           {/* BUTTON */}
+           <View className="flex items-center justify-center mt-14">
+               <TouchableOpacity onPress={()=>navigation.navigate('tracking')}
+               className="flex items-center justify-center h-12 w-full rounded-lg bg-[#0077B6]">
+                   <Text className={`text-base font-[bold] text-white`}>Live Tracking</Text>
                </TouchableOpacity>
            </View>
 

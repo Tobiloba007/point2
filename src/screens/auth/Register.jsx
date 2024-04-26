@@ -7,12 +7,18 @@ import Eye from '../../../assets/icon/eye.svg'
 import EyeSlash from '../../../assets/icon/eye-slash.svg'
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from 'react-redux'
+import { registerAccount } from '../../features/actions/Authentication';
+import { ActivityIndicator } from 'react-native';
+
+
+
 
 
 const SignupSchema = Yup.object().shape({
-  first_name: Yup.string().min(3).max(50).required(),
-  last_name: Yup.string().min(3).max(50).required(),
-  phone_number: Yup.string().required().matches(/^(80|81|90|70|91)\d{8}$/),
+  firstname: Yup.string().min(3).max(50).required(),
+  lastname: Yup.string().min(3).max(50).required(),
+  phone: Yup.string().required().matches(/^(080|081|090|070|091)\d{8}$/),
   email: Yup.string().email("Invalid email").required(),
   password: Yup.string()
     .min(8)
@@ -25,13 +31,19 @@ const SignupSchema = Yup.object().shape({
 
 export default function Register() {
   const [eye, setEye] = useState(false)
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+
     const navigation = useNavigation();
 
     const screenWidth = Dimensions.get('window').width;
 
+    const dispatch = useDispatch()
+
     const handleSubmit = async (values) => {
-      navigation.navigate('verifyAccount')
-      // console.log(values)
+      dispatch(registerAccount(values, setLoading, setError, navigation))
+      // console.log(values);
     }
 
   return (
@@ -59,9 +71,9 @@ export default function Register() {
 
         <Formik
           initialValues={{
-            first_name: "",
-            last_name: "",
-            phone_number: "",
+            firstname: "",
+            lastname: "",
+            phone: "",
             email: "",
             password: "",
             password_confirmation: "",
@@ -83,16 +95,16 @@ export default function Register() {
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Phone number</Text>
                   <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular']
-                   text-[#344054] pl-[87px] ${touched.phone_number && errors.phone_number && 'border-red-500'} 
-                   ${touched.phone_number && !errors.phone_number && 'border-[#0077B6]'}`}
+                   text-[#344054] pl-[87px] ${touched.phone && errors.phone && 'border-red-500'} 
+                   ${touched.phone && !errors.phone && 'border-[#0077B6]'}`}
                   placeholder='90722245789'
                   placeholderTextColor={'#667085'}
-                  values={values.phone_number}
-                  onChangeText={handleChange("phone_number")}
-                  onBlur={() => setFieldTouched("phone_number")}
+                  values={values.phone}
+                  onChangeText={handleChange("phone")}
+                  onBlur={() => setFieldTouched("phone")}
                   keyboardType='number-pad'
                   />
-                  {touched.phone_number && errors.phone_number && <Text className='text-red-500 text-[10px] pt-1'>invalid phone number format</Text>}
+                  {touched.phone && errors.phone && <Text className='text-red-500 text-[10px] pt-1'>invalid phone number format</Text>}
                   <View className="absolute top-14 left-4 flex flex-row items-center justify-start">
                       <Text className={`text-base text-[#101828] font-['regular'] mr-1`}>+234</Text>
                       <SimpleLineIcons name="arrow-down" size={12} color="#667085" />
@@ -122,16 +134,16 @@ export default function Register() {
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>First Name</Text>
                   <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
-                  text-[#344054] pl-5 ${touched.first_name && errors.first_name && 'border-red-500'} 
-                  ${touched.first_name && !errors.first_name && 'border-[#0077B6]'}`}
+                  text-[#344054] pl-5 ${touched.firstname && errors.firstname && 'border-red-500'} 
+                  ${touched.firstname && !errors.firstname && 'border-[#0077B6]'}`}
                   placeholder='First Name'
                   placeholderTextColor={'#667085'}
-                  values={values.first_name}
-                  onChangeText={handleChange("first_name")}
-                  onBlur={() => setFieldTouched("first_name")}
+                  values={values.firstname}
+                  onChangeText={handleChange("firstname")}
+                  onBlur={() => setFieldTouched("firstname")}
                   keyboardType='default'
                   />
-                  {touched.first_name && errors.first_name && 
+                  {touched.firstname && errors.firstname && 
                     <Text className='text-red-500 text-[10px] pt-1'>minimum of 2 letters</Text>}
             </View>
 
@@ -139,16 +151,16 @@ export default function Register() {
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Last Name</Text>
                   <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
-                  text-[#344054] pl-5 ${touched.last_name && errors.last_name && 'border-red-500'} 
-                  ${touched.last_name && !errors.last_name && 'border-[#0077B6]'}`}
+                  text-[#344054] pl-5 ${touched.lastname && errors.lastname && 'border-red-500'} 
+                  ${touched.lastname && !errors.lastname && 'border-[#0077B6]'}`}
                   placeholder='Last Name'
                   placeholderTextColor={'#667085'}
-                  values={values.last_name}
-                  onChangeText={handleChange("last_name")}
-                  onBlur={() => setFieldTouched("last_name")}
+                  values={values.lastname}
+                  onChangeText={handleChange("lastname")}
+                  onBlur={() => setFieldTouched("lastname")}
                   keyboardType='default'
                   />
-                  {touched.last_name && errors.last_name && 
+                  {touched.lastname && errors.lastname && 
                     <Text className='text-red-500 text-[10px] pt-1'>minimum of 2 letters</Text>}
             </View>
 
@@ -196,12 +208,16 @@ export default function Register() {
                   </View>
             </View>
 
-              {/* BUTTON */}
-            <View className="flex items-center justify-center w-full mt-20">
+            {/* BUTTON */}
+            <View className="flex items-center justify-center w-full mt-14">
+            <Text className={`text-sm text-red-500 font-['medium'] mb-4 w-full text-start`}>{error}</Text>
                   <TouchableOpacity onPress={handleSubmit}
                   disabled={!isValid}
                   className={`flex items-center justify-center h-12 w-full rounded-lg bg-[#0077B6] ${!isValid && 'opacity-30'}`}>
-                      <Text className={`text-base font-[bold] text-white`}>Create your account</Text>
+                      {loading 
+                       ?<ActivityIndicator size="large" color="#ffffff" />
+                       :<Text className={`text-base font-[bold] text-white`}>Create your account</Text>
+                      }
                   </TouchableOpacity>
             </View>
 
@@ -210,6 +226,7 @@ export default function Register() {
         </Formik>
 
         </ScrollView>
+
 
 
     </SafeAreaView>

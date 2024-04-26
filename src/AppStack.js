@@ -17,13 +17,14 @@ import ChatBox from './screens/ChatBox';
 import PickUpDetails from './screens/PickUpDetails';
 import DeliveryLocation from './screens/DeliveryLocation';
 import SendPackageSuccess from './screens/SendPackageSuccess';
+import Map from './screens/Map';
 
 const Stack = createStackNavigator();
 
 const AppStack = () => {
 
   return (
-    <Stack.Navigator initialRouteName="splash1">
+    <Stack.Navigator initialRouteName="login">
       <Stack.Screen name="splash1" component={Splash1} options={{headerShown: false}} />
       <Stack.Screen name="splash2" component={Splash2} options={{headerShown: false}} />
       <Stack.Screen name="login" component={Login} options={{headerShown: false}} />
@@ -42,6 +43,7 @@ const AppStack = () => {
       <Stack.Screen name="pickUpDetails" component={PickUpDetails} options={{headerShown: false}} />
       <Stack.Screen name="deliveryLocation" component={DeliveryLocation} options={{headerShown: false}} />
       <Stack.Screen name="sendPackageSuccess" component={SendPackageSuccess} options={{headerShown: false}} />
+      <Stack.Screen name="map" component={Map} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 };

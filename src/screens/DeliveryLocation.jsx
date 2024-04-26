@@ -1,29 +1,42 @@
 import { Dimensions, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Formik } from "formik";
 import * as Yup from "yup";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setDelivery } from '../features/orderSlice';
+import { useDispatch } from 'react-redux';
+
 
 
 
 const SignupSchema = Yup.object().shape({
-    name: Yup.string().required(),
-    phone_number: Yup.string().required().matches(/^(80|81|90|70|91)\d{8}$/),
-    address: Yup.string().required(),
+    delivery_point_name: Yup.string().required(),
+    delivery_point_phone: Yup.string().required().matches(/^(080|081|090|070|091)\d{8}$/),
+    delivery_point_email: Yup.string().email("Invalid email").required(),
+    delivery_point_location: Yup.string().required(),
   });
 
-export default function DeliveryLocation() {
+export default function DeliveryLocation({route}) {
+   const { setDeliveryState } = route.params;
+
     const [landmark, setLandmark] = useState('')
 
     const navigation = useNavigation();
 
     const ScreenWidth = Dimensions.get('window').width;
 
+    const optional = {'landmark': landmark}
+
+    const dispatch = useDispatch()
+
     const handleSubmit = async (values) => {
-        // const combinedData = {...values, 'landmark': landmark}
+        const combinedData = {...values, 'delivery_point_location_coordinate': '28, 22'}
+        dispatch(setDelivery(combinedData))
         navigation.goBack()
+        setDeliveryState(true)
         // console.log(combinedData)
       }
 
@@ -36,15 +49,16 @@ export default function DeliveryLocation() {
                    <Feather name="arrow-left" size={18} color="#344054" />
                    <Text className={`text-xs text-[#344054] font-['medium'] pl-2 pb-[2px]`}>Back</Text>
              </TouchableOpacity>
-             <Text className={`text-2xl text-[#101828] font-['bold'] mt-9`}>Delivery Location 1</Text>
+             <Text className={`text-2xl text-[#101828] font-['bold'] mt-9`}>Delivery Location</Text>
         </View>
 
 
         <Formik
           initialValues={{
-            name: "",
-            phone_number: "",
-            address: "",
+            delivery_point_name: "",
+            delivery_point_phone: "",
+            delivery_point_email: "",
+            delivery_point_location: "",
           }}
           validationSchema={SignupSchema}
           onSubmit={handleSubmit}
@@ -66,11 +80,11 @@ export default function DeliveryLocation() {
               <View className='flex items-start justify-start w-full mb-5'>
                   <Text className={`text-sm text-[#101828] font-['bold']`}>Reciever's name</Text>
                   <TextInput className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-4 text-[#667085] text-base 
-                  font-['regular'] ${touched.name && errors.name && 'border-red-500'} ${touched.name && !errors.name && 'border-[#0077B6]'}`}
+                  font-['regular'] ${touched.delivery_point_name && errors.delivery_point_name && 'border-red-500'} ${touched.delivery_point_name && !errors.delivery_point_name && 'border-[#0077B6]'}`}
                   placeholder="Enter receiver's name"
-                  values={values.name}
-                  onChangeText={handleChange("name")}
-                  onBlur={() => setFieldTouched("name")}
+                  values={values.delivery_point_name}
+                  onChangeText={handleChange("delivery_point_name")}
+                  onBlur={() => setFieldTouched("delivery_point_name")}
                   keyboardType='default'
                   />
               </View>
@@ -80,14 +94,14 @@ export default function DeliveryLocation() {
                   <Text className={`text-sm text-[#101828] font-['bold']`}>Reciever Phone number</Text>
                   <View className='relative w-full'>
                       <TextInput className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-[75px] text-[#667085] 
-                      text-base font-['regular'] ${touched.phone_number && errors.phone_number && 'border-red-500'} ${touched.phone_number && !errors.phone_number && 'border-[#0077B6]'}`}
-                      placeholder='900 000 0000'
-                      values={values.phone_number}
-                      onChangeText={handleChange("phone_number")}
-                      onBlur={() => setFieldTouched("phone_number")}
+                      text-base font-['regular'] ${touched.delivery_point_phone && errors.delivery_point_phone && 'border-red-500'} ${touched.delivery_point_phone && !errors.delivery_point_phone && 'border-[#0077B6]'}`}
+                      placeholder='090 0000 0000'
+                      values={values.delivery_point_phone}
+                      onChangeText={handleChange("delivery_point_phone")}
+                      onBlur={() => setFieldTouched("delivery_point_phone")}
                       keyboardType='number-pad'
                       />
-                      {touched.phone_number && errors.phone_number && <Text className='text-red-500 text-[10px] pt-1'>invalid phone number format</Text>}
+                      {touched.delivery_point_phone && errors.delivery_point_phone && <Text className='text-red-500 text-[10px] pt-1'>invalid phone number format</Text>}
                       <View className='absolute top-4 left-4 flex flex-row items-center justify-center'>
                           <Text className={`text-base text-[#101828] font-['regular'] mr-1`}>234</Text>
                           <SimpleLineIcons name="arrow-down" size={12} color="#667085" />
@@ -95,15 +109,36 @@ export default function DeliveryLocation() {
                   </View>
               </View>
 
+
+                  {/* EMAIL */}
+              <View className="relative items-start justify-start w-full mb-5">
+                    <Text className={`text-sm text-[#101828] font-['bold']`}>Email Address</Text>
+                    <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
+                    text-[#344054] pl-14 ${touched.delivery_point_email && errors.delivery_point_email && 'border-red-500'} 
+                    ${touched.delivery_point_email && !errors.delivery_point_email && 'border-[#0077B6]'}`}
+                    placeholder='example@mail.com'
+                    placeholderTextColor={'#667085'}
+                    values={values.delivery_point_email}
+                    onChangeText={handleChange("delivery_point_email")}
+                    onBlur={() => setFieldTouched("delivery_point_email")}
+                    keyboardType='email-address'
+                    />
+                    {touched.delivery_point_email && errors.delivery_point_email && <Text className='text-red-500 text-[10px] pt-1'>invalid email format</Text>}
+                    <View className="absolute top-[46px] left-4 flex flex-row items-center justify-start">
+                        <Feather name="mail" size={22} color="#667085" />
+                    </View>
+              </View>
+
+
                  {/*RECIEVER'S ADDRESS */}
               <View className='flex items-start justify-start w-full mb-5'>
                   <Text className={`text-sm text-[#101828] font-['bold']`}>Receiver's address</Text>
                   <TextInput className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-4 text-[#667085] text-base font-['regular']
-                  ${touched.address && errors.address && 'border-red-500'} ${touched.address && !errors.address && 'border-[#0077B6]'}`}
+                  ${touched.delivery_point_location && errors.delivery_point_location && 'border-red-500'} ${touched.delivery_point_location && !errors.delivery_point_location && 'border-[#0077B6]'}`}
                   placeholder='Address'
-                  values={values.address}
-                  onChangeText={handleChange("address")}
-                  onBlur={() => setFieldTouched("address")}
+                  values={values.delivery_point_location}
+                  onChangeText={handleChange("delivery_point_location")}
+                  onBlur={() => setFieldTouched("delivery_point_location")}
                   keyboardType='default'
                   />
               </View>

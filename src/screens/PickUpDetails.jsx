@@ -1,24 +1,31 @@
 import { Dimensions, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Formik } from "formik";
 import * as Yup from "yup";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPickUp } from '../features/orderSlice';
 
 
 
 const SignupSchema = Yup.object().shape({
     customer_name: Yup.string().required(),
-    phone_number: Yup.string().required().matches(/^(80|81|90|70|91)\d{8}$/),
-    address: Yup.string().required(),
-    item_name: Yup.string().required(),
-    quantity: Yup.string().required(),
-    value: Yup.string().required(),
+    customer_phone: Yup.string().required().matches(/^(080|081|090|070|091)\d{8}$/),
+    customer_email: Yup.string().email("Invalid email").required(),
+    pickup_location: Yup.string().required(),
+    package_name: Yup.string().required(),
+    // quantity: Yup.string().required(),
+    // value: Yup.string().required(),
   });
 
 
-export default function PickUpDetails() {
+export default function PickUpDetails({route}) {
+    const { setPickup } = route.params;
+
+
     const [dropDown, setDropDown] = useState(false)
     const [selectedOption, setSelelctedOption] = useState('Select Category')
     const [landmark, setLandmark] = useState('')
@@ -44,6 +51,10 @@ export default function PickUpDetails() {
             id: 4,
             name: 'Food',
         },
+        {
+            id: 5,
+            name: 'Others',
+        },
     ]
 
     const handleOption = (item) => {
@@ -51,11 +62,18 @@ export default function PickUpDetails() {
         setDropDown(false)
     }
 
+
+    const dispatch = useDispatch()
+
     const handleSubmit = async (values) => {
-        const combinedData = {...values, 'category': selectedOption, 'landmark': landmark}
+        const combinedData = {...values, 'package_category': selectedOption, 'pickup_location_coordinate': '21 20'}
         navigation.goBack()
-        console.log(combinedData)
+        dispatch(setPickUp(combinedData))
+        setPickup(true)
+        // console.log(combinedData)
       }
+
+
 
   return (
     <SafeAreaView className="flex items-start justify-start w-full h-full bg-white pt-8">
@@ -73,14 +91,17 @@ export default function PickUpDetails() {
         <Formik
           initialValues={{
             customer_name: "",
-            phone_number: "",
-            address: "",
-            item_name: "",
-            quantity: "",
-            value: "",
+            customer_phone: "",
+            customer_email: "",
+            pickup_location: "",
+            package_name: "",
+            // quantity: "",
+            // value: "",
           }}
           validationSchema={SignupSchema}
           onSubmit={handleSubmit}
+          resetForm={false}
+        //   isInitialValid={true}
         >
           {({
             values,
@@ -91,7 +112,7 @@ export default function PickUpDetails() {
             isValid,
             handleSubmit,
           }) => (
-        <ScrollView contentContainerStyle={{width: ScreenWidth, paddingBottom: 40, paddingHorizontal: 20}}
+        <ScrollView contentContainerStyle={{width: ScreenWidth, paddingBottom: 140, paddingHorizontal: 20}}
         showsVerticalScrollIndicator={false}
         >
         <View className='flex items-start justify-start w-full mt-9'>
@@ -113,14 +134,14 @@ export default function PickUpDetails() {
                   <Text className={`text-sm text-[#101828] font-['bold']`}>Phone number</Text>
                   <View className='relative w-full'>
                       <TextInput className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-[75px] text-[#667085] 
-                      text-base font-['regular'] ${touched.phone_number && errors.phone_number && 'border-red-500'} ${touched.phone_number && !errors.phone_number && 'border-[#0077B6]'}`}
-                      placeholder='900 000 0000'
-                      values={values.phone_number}
-                      onChangeText={handleChange("phone_number")}
-                      onBlur={() => setFieldTouched("phone_number")}
+                      text-base font-['regular'] ${touched.customer_phone && errors.customer_phone && 'border-red-500'} ${touched.customer_phone && !errors.customer_phone && 'border-[#0077B6]'}`}
+                      placeholder='090 0000 0000'
+                      values={values.customer_phone}
+                      onChangeText={handleChange("customer_phone")}
+                      onBlur={() => setFieldTouched("customer_phone")}
                       keyboardType='number-pad'
                       />
-                      {touched.phone_number && errors.phone_number && <Text className='text-red-500 text-[10px] pt-1'>invalid phone number format</Text>}
+                      {touched.customer_phone && errors.customer_phone && <Text className='text-red-500 text-[10px] pt-1'>invalid phone number format</Text>}
                       <View className='absolute top-4 left-4 flex flex-row items-center justify-center'>
                           <Text className={`text-base text-[#101828] font-['regular'] mr-1`}>234</Text>
                           <SimpleLineIcons name="arrow-down" size={12} color="#667085" />
@@ -128,15 +149,34 @@ export default function PickUpDetails() {
                   </View>
               </View>
 
+              {/* EMAIL */}
+            <View className="relative items-start justify-start w-full mb-5">
+                  <Text className={`text-sm text-[#101828] font-['bold']`}>Email Address</Text>
+                  <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
+                  text-[#344054] pl-14 ${touched.customer_email && errors.customer_email && 'border-red-500'} 
+                  ${touched.customer_email && !errors.customer_email && 'border-[#0077B6]'}`}
+                  placeholder='example@mail.com'
+                  placeholderTextColor={'#667085'}
+                  values={values.email}
+                  onChangeText={handleChange("customer_email")}
+                  onBlur={() => setFieldTouched("customer_email")}
+                  keyboardType='email-address'
+                  />
+                  {touched.customer_email && errors.customer_email && <Text className='text-red-500 text-[10px] pt-1'>invalid email format</Text>}
+                  <View className="absolute top-[46px] left-4 flex flex-row items-center justify-start">
+                      <Feather name="mail" size={22} color="#667085" />
+                  </View>
+            </View>
+
                  {/*PICKUP ADDRESS */}
               <View className='flex items-start justify-start w-full mb-5'>
                   <Text className={`text-sm text-[#101828] font-['bold']`}>Pickup address</Text>
                   <TextInput className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-4 text-[#667085] text-base font-['regular']
-                  ${touched.address && errors.address && 'border-red-500'} ${touched.address && !errors.address && 'border-[#0077B6]'}`}
+                  ${touched.pickup_location && errors.pickup_location && 'border-red-500'} ${touched.pickup_location && !errors.pickup_location && 'border-[#0077B6]'}`}
                   placeholder='Select Address'
-                  values={values.address}
-                  onChangeText={handleChange("address")}
-                  onBlur={() => setFieldTouched("address")}
+                  values={values.pickup_location}
+                  onChangeText={handleChange("pickup_location")}
+                  onBlur={() => setFieldTouched("pickup_location")}
                   keyboardType='default'
                   />
               </View>
@@ -157,15 +197,28 @@ export default function PickUpDetails() {
         <Text className={`text-lg text-[#0077B6] font-['bold'] mt-4 mb-5`}>Item details</Text>
 
         <View className='flex items-start justify-start w-full'>
-               {/*ITEM NAME */}
-              <View className='flex items-start justify-start w-full mb-5'>
+
+              {/*ITEM NAME */}
+              {/*<View className='flex items-start justify-start w-full mb-5'>
                   <Text className={`text-sm text-[#101828] font-['bold']`}>Item Name</Text>
                   <TextInput className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-4 text-[#667085] text-base font-['regular']
-                  ${touched.item_name && errors.item_name && 'border-red-500'} ${touched.item_name && !errors.item_name && 'border-[#0077B6]'}`}
+                  ${itemName !== '' && 'border-[#0077B6]'}`}
+                  placeholder="Enter Item's Name (optional)"
+                  values={itemName}
+                  onChangeText={(text)=>setItemName(text)}
+                  keyboardType='default'
+                  />
+              </View>*/}
+
+              {/*ITEM NAME */}
+              <View className='flex items-start justify-start w-full mb-5'>
+                 <Text className={`text-sm text-[#101828] font-['bold']`}>Item Name</Text>
+                 <TextInput className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-4 text-[#667085] text-base font-['regular']
+                  ${touched.package_name && errors.package_name && 'border-red-500'} ${touched.package_name && !errors.package_name && 'border-[#0077B6]'}`}
                   placeholder="Enter Item's Name"
-                  values={values.item_name}
-                  onChangeText={handleChange("item_name")}
-                  onBlur={() => setFieldTouched("item_name")}
+                  values={values.package_name}
+                  onChangeText={handleChange("package_name")}
+                  onBlur={() => setFieldTouched("package_name")}
                   keyboardType='default'
                   />
               </View>
@@ -209,7 +262,7 @@ export default function PickUpDetails() {
               </View>
 
                  {/*QUANTITY AND VALUE */}
-              <View className='flex flex-row items-center justify-between w-full'>
+              {/*<View className='flex flex-row items-center justify-between w-full'>
                   <View className='flex items-start justify-start w-[49%] mb-5'>
                       <Text className={`text-sm text-[#101828] font-['bold']`}>Quantity</Text>
                       <TextInput className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-4 text-[#667085] text-base 
@@ -233,7 +286,7 @@ export default function PickUpDetails() {
                       keyboardType='number-pad'
                       />
                   </View>
-              </View>
+              </View>*/}
         </View>
 
         {/* BUTTON */}
