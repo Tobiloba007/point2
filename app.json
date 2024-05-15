@@ -22,6 +22,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["./fonts/Satoshi-Bold.otf", "./fonts/Satoshi-Black.otf", "./fonts/Satoshi-Light.otf", "./fonts/Satoshi-Medium.otf", "./fonts/Satoshi-Regular.otf"]
+        }
+      ]
+    ]
   }
 }
