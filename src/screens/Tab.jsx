@@ -59,7 +59,7 @@ export default function Tab() {
                {
                 tab === 'Activity' ? <ActivityIcon2 height={24} width={24} /> : <ActivityIcon height={24} width={24} />
                }
-               <Text className={`text-xs text-[${tab === 'Activity' ? '#0077B6' : '#475467'}] font-['regular'] mt-2`}>Activity</Text>
+               <Text className={`text-xs text- [${tab === 'Activity' ? '#0077B6' : '#475467'}] font-['regular'] mt-2`}>Activity</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={()=>handleTab('Package')} 
