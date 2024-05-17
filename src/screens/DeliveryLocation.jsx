@@ -50,6 +50,7 @@ export default function DeliveryLocation({ route }) {
     const combinedData = {
       ...values,
       delivery_point_name: destination?.formatted_address,
+      delivery_point_location: destination?.formatted_address,
       delivery_point_location_coordinate: [
         destination?.geometry?.location?.lat,
         destination?.geometry?.location?.lng,

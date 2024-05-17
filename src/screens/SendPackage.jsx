@@ -109,13 +109,13 @@ export default function SendPackage({ setTab }) {
       ...oderValues,
       pickup_location_coordinate: [pickupLatitude, pickupLongitude],
       delivery_point_location_coordinate: [deliveryLatitude, deliveryLongitude],
-      km: formattedDistance,
+      km: formattedDistance.toString(),
     };
     console.log("formattedDistance", formattedDistance);
     console.log("payloadd::", payload);
 
-    dispatch(createOrder(payload, setLoading, setError, setSummary));
-    dispatch(getCharges(formattedDistance, setLoading, setError));
+    // dispatch(createOrder(payload, setLoading, setError, setSummary));
+    // dispatch(getCharges(formattedDistance.toString(), setLoading, setError));
   };
 
   const data = useSelector((state) => state.order.orderCharges);

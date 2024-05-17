@@ -81,7 +81,7 @@ export default function PickUpDetails({ route }) {
     const combinedData = {
       ...values,
       package_category: selectedOption,
-      pick_up_address: origin?.formatted_address,
+      pickup_location: origin?.formatted_address,
       pickup_location_coordinate: [
         origin?.geometry?.location?.lat,
         origin?.geometry?.location?.lng,

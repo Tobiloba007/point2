@@ -6,6 +6,7 @@ import {
   Image,
   Linking,
   SafeAreaView,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -18,9 +19,10 @@ import MapViewDirections from "react-native-maps-directions";
 import { AntDesign } from "@expo/vector-icons";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
-import { GOOGLEKEY } from "../_shared";
 
-const Tracking = () => {
+const Tracking = ({ route }) => {
+  const { data } = route.params;
+  const apiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
   const { width, height } = Dimensions.get("window");
   const handleCallPress = () => {
     const phoneUrl = `tel:${"09023456789"}`;
@@ -33,20 +35,37 @@ const Tracking = () => {
   const ASPECT_RATIO = width / height;
   const LATITUDE_DELTA = 0.02;
   const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-  const INITIAL_POSITION = {
-    latitude: 40.76711,
-    longitude: -73.979704,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA,
-  };
+
+  const originLatitude = data?.pickup_location_coordinate
+    ? data.pickup_location_coordinate[0]
+    : null;
+  const originLongitude = data?.pickup_location_coordinate
+    ? data.pickup_location_coordinate[1]
+    : null;
+  const destinationLatitude = data?.delivery_point_location_coordinate
+    ? data.delivery_point_location_coordinate[0]
+    : null;
+  const destinationLongitude = data?.delivery_point_location_coordinate
+    ? data.delivery_point_location_coordinate[1]
+    : null;
+
   const [origin, setOrigin] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
+    latitude: originLatitude,
+    longitude: originLongitude,
   });
   const [destination, setDestination] = useState({
-    latitude: 37.75825,
-    longitude: -122.4224,
+    latitude: destinationLatitude,
+    longitude: destinationLongitude,
   });
+
+  const edgePaddingValue = 70;
+
+  const edgePadding = {
+    top: edgePaddingValue,
+    right: edgePaddingValue,
+    bottom: edgePaddingValue,
+    left: edgePaddingValue,
+  };
 
   const moveTo = async (position) => {
     const camera = await mapRef.current?.getCamera();
@@ -75,10 +94,10 @@ const Tracking = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <MapView
         ref={mapRef}
-        style={{ flex: 1 }}
+        style={styles.map}
         // provider={PROVIDER_GOOGLE}
         // initialRegion={INITIAL_POSITION}
         region={{
@@ -88,6 +107,13 @@ const Tracking = () => {
           longitudeDelta:
             Math.abs(origin.longitude - destination.longitude) * 2,
         }}
+        scrollEnabled={true}
+        rotateEnabled={true}
+        showsUserLocation={true}
+        followUserLocation={true}
+        loadingEnabled={true}
+        pitchEnabled={true}
+        showsIndoorLevelPicker={true}
       >
         <Marker coordinate={origin}>
           <AntDesign name="car" size={20} color="black" />
@@ -98,25 +124,70 @@ const Tracking = () => {
           <MapViewDirections
             origin={origin}
             destination={destination}
-            apikey={GOOGLEKEY}
+            apikey={apiKey}
             strokeColor="#6644ff"
             strokeWidth={4}
             onReady={traceRouteOnReady}
           />
         )}
-      </MapView>
-
-      {/* BACK BUTTON */}
-      <View className="absolute top-0 flex items-start justify-start h-full w-full px-5 mt-10">
+        <View style={{ padding: 26 }}>
+          <TouchableOpacity style={styles.button} onPress={traceRoute}>
+            <AntDesign name="arrowsalt" size={20} color="black" />
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity
+          style={styles.backButton}
           onPress={() => navigation.goBack()}
-          className="flex items-center justify-center w-12 h-12 rounded-full bg-[#0077B6]"
         >
-          <AntDesign name="arrowleft" size={20} color="white" />
+          <Text>back</Text>
         </TouchableOpacity>
-      </View>
+        <View
+          style={{
+            padding: 16,
+            position: "absolute",
+            right: 10,
+          }}
+        >
+          {distance && duration ? (
+            <View>
+              <Text>Distance: {distance.toFixed(2)}</Text>
+              <Text>Duration: {Math.ceil(duration)} min</Text>
+            </View>
+          ) : null}
+        </View>
+      </MapView>
     </View>
   );
 };
 
 export default Tracking;
+
+const styles = StyleSheet.create({
+  container: { flex: 1, width: "100%" },
+  map: {
+    height: "100%",
+    flex: 1,
+    width: "100%",
+  },
+
+  button: {
+    backgroundColor: "white",
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 2.22,
+    elevation: 3,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    textAlign: "center",
+  },
+});

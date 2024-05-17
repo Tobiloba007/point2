@@ -2,11 +2,12 @@
 
 import React from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { GOOGLEKEY } from "../../_shared";
+
 
 
 
 const GooglePlaceInput = ({ onSelectPlace }) => {
+  const apiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
   return (
     <GooglePlacesAutocomplete
       styles={{
@@ -29,7 +30,7 @@ const GooglePlaceInput = ({ onSelectPlace }) => {
         onSelectPlace(details);
       }}
       query={{
-        key: GOOGLEKEY,
+        key: apiKey,
         language: "en",
         components: "country:ng",
       }}
