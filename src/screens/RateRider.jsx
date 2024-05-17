@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Star from '../../assets/icon/Star.svg'
-import StarRating from 'react-native-star-rating';
+// import StarRating from 'react-native-star-rating';
 
 
 

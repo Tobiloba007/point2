@@ -1,12 +1,11 @@
-
 import { Text, View } from 'react-native';
+import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { useCallback } from 'react';
-import { NavigationContainer } from '@react-navigation/native'
-import AppStack from './src/AppStack';
-import store from './src/store';
 import { Provider } from 'react-redux';
+import store from './src/store';
+import AppStack from './src/AppStack';
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -26,16 +25,15 @@ export default function App() {
   }, [fontsLoaded, fontError]);
 
   if (!fontsLoaded && !fontError) {
-    return null;
+    return ;
   }
+
 
   return (
     <Provider store={store}>
-       <NavigationContainer>
-           <View className="flex-1" onLayout={onLayoutRootView}>
-              <AppStack />
-           </View>
-       </NavigationContainer>
+       <View className='flex-1 bg-white' onLayout={onLayoutRootView}>
+           <AppStack />
+       </View>
     </Provider>
   );
 }
