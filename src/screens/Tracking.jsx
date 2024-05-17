@@ -20,8 +20,12 @@ import { AntDesign } from "@expo/vector-icons";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 
+
+
+
 const Tracking = ({ route }) => {
   const { data } = route.params;
+  
   const apiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
   const { width, height } = Dimensions.get("window");
   const handleCallPress = () => {
