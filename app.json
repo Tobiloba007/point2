@@ -18,7 +18,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.michael007.debug"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -27,9 +28,20 @@
       [
         "expo-font",
         {
-          "fonts": ["./fonts/Satoshi-Bold.otf", "./fonts/Satoshi-Black.otf", "./fonts/Satoshi-Light.otf", "./fonts/Satoshi-Medium.otf", "./fonts/Satoshi-Regular.otf"]
+          "fonts": [
+            "./fonts/Satoshi-Bold.otf",
+            "./fonts/Satoshi-Black.otf",
+            "./fonts/Satoshi-Light.otf",
+            "./fonts/Satoshi-Medium.otf",
+            "./fonts/Satoshi-Regular.otf"
+          ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8b44584d-6793-47e5-bf14-bf9c5826b596"
+      }
+    }
   }
 }
