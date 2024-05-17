@@ -39,13 +39,7 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    console.log("values");
-    const payload = {
-      phone: "07064442814",
-      password: "123456Ste",
-    };
-    console.log("payload::", payload);
-    dispatch(loginAction(payload, setLoading, setError, navigation));
+    dispatch(loginAction(values, setLoading, setError, navigation));
 
     console.log(values);
   };
@@ -84,7 +78,7 @@ export default function Login() {
           phone: "",
           password: "",
         }}
-        validationSchema={''}
+        validationSchema={LoginSchema}
         onSubmit={handleSubmit}
       >
         {({
@@ -109,7 +103,6 @@ export default function Login() {
                 placeholder="90 0000 0000"
                 placeholderTextColor={"#667085"}
                 values={values.phone}
-                defaultValue="07064442814"
                 onChangeText={handleChange("phone")}
                 onBlur={() => setFieldTouched("phone")}
                 keyboardType="number-pad"
@@ -136,10 +129,9 @@ export default function Login() {
               </Text>
               <TextInput
                 className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] 
-          pl-5 ${touched.password && errors.password && "border-red-500"} ${
-                  touched.password && !errors.password && "border-[#0077B6]"
-                }`}
-                defaultValue="123456Ste"
+                            pl-5 ${touched.password && errors.password && "border-red-500"} ${
+                             touched.password && !errors.password && "border-[#0077B6]"
+                           }`}
                 placeholder="********"
                 placeholderTextColor={"#667085"}
                 values={values.full_name}
