@@ -9,7 +9,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View, Platform
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -94,12 +94,12 @@ export default function PickUpDetails({ route }) {
   };
 
   return (
-    <SafeAreaView className="flex items-start justify-start w-full h-full bg-white pt-8">
+    <SafeAreaView className={`flex items-start justify-center w-full h-full bg-white pt-8`}>
       {/*HEADER */}
-      <View className="relative flex items-start justify-start w-full bg-white pb-1 shadow-2xl px-5">
+      <View className={`relative flex items-start justify-start w-full bg-white pb-1 shadow-2xl px-5 ${Platform.OS === 'ios' && 'w-[100%]'}`}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          className="absolute left-5 flex flex-row items-center justify-start w-full"
+          className={`absolute left-5 flex flex-row items-center justify-start w-full ${Platform.OS === 'ios' && ' pt-5 w-[85%]'}`}
         >
           <Feather name="arrow-left" size={18} color="#344054" />
           <Text
@@ -108,7 +108,7 @@ export default function PickUpDetails({ route }) {
             Back
           </Text>
         </TouchableOpacity>
-        <Text className={`text-2xl text-[#101828] font-['bold'] mt-9`}>
+        <Text className={`text-2xl text-[#101828] font-['bold'] mt-9 ${Platform.OS === 'ios' && ' pt-4 w-[85%]'}`}>
           Pickup details
         </Text>
       </View>
@@ -145,7 +145,7 @@ export default function PickUpDetails({ route }) {
             }}
             showsVerticalScrollIndicator={false}
           >
-            <View className="flex items-start justify-start w-full mt-9">
+            <View className={`flex items-start justify-start w-full mt-9`}>
               {/*CUSTOMER NAME */}
               <View className="flex items-start justify-start w-full mb-5">
                 <Text className={`text-sm text-[#101828] font-['bold']`}>

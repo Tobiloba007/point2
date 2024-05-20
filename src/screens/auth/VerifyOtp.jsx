@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -83,12 +83,12 @@ export default function VerifyOtp({ route }) {
     <SafeAreaView className="flex-1 items-center justify-start px-5 bg-white pt-8">
 
     <TouchableOpacity onPress={()=>navigation.goBack()}
-    className="flex flex-row items-center justify-start w-full">
+    className={`flex flex-row items-center justify-start w-full ${Platform.OS === 'ios' && 'w-[85%] pt-5'}`}>
           <Feather name="arrow-left" size={18} color="#344054" />
           <Text className={`text-xs text-[#344054] font-['medium'] pl-2 pb-[2px]`}>Back</Text>
     </TouchableOpacity>
     
-    <View className="items-start w-full mt-8">
+    <View className={`items-start w-full mt-8 ${Platform.OS === 'ios' && 'w-[85%]'}`}>
          <Text className={`text-2xl text-[#475467] font-['bold']`}>Verify OTP</Text>
 
          <View className="relative flex flex-row items-center justify-starrt w-full">
@@ -123,7 +123,7 @@ export default function VerifyOtp({ route }) {
           
     </View>
 
-    <View className="flex items-center justify-center w-full mt-12">
+    <View className={`flex items-center justify-center w-full mt-12 ${Platform.OS === 'ios' && 'w-[85%]'}`}>
           <Text className={`text-sm text-red-500 font-['medium'] mb-4 w-full text-start`}>{error}</Text>
           <TouchableOpacity onPress={handleSubmit}
           disabled={!otp}
@@ -136,7 +136,7 @@ export default function VerifyOtp({ route }) {
     </View>
 
     
-    <View className="flex items-center justify-start w-full mt-6">
+    <View className={`flex items-center justify-start w-full mt-6 ${Platform.OS === 'ios' && 'w-[85%]'}`}>
           <Text className={`text-sm font-[medium] text-[#344054]`}>Haven't received the code yet?</Text>
           { count !== 30 
           ?<TouchableOpacity>

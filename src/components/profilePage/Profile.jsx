@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, Image, TouchableOpacity, TextInput, ScrollView, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Camera from '../../../assets/icon/camera.svg'
 import Gift from '../../../assets/icon/giftPackage.svg'
@@ -41,7 +41,7 @@ export default function Profile({buttons, setPages}) {
 
   return (
     <ScrollView>
-    <View className="flex-1 items-center justify-start bg-white px-5">
+    <View className={`flex-1 items-center justify-start bg-white px-5 ${Platform.OS === 'ios' && 'pb-14'}`}>
          <Text className={`text-lg text-[#344054] font-['bold'] pb-[2px]`}>Profile</Text>
 
          <View className='flex flex-row items-center justify-start w-full mt-5'>

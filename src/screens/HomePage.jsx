@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Platform } from 'react-native'
 import React from 'react'
 import Location from '../../assets/icon/location.svg'
 import Box from '../../assets/icon/box.svg'
@@ -15,7 +15,7 @@ export default function HomePage({setInputModal, setTab, location}) {
     >
           {/* LOCATION */}
         <TouchableOpacity onPress={()=>setInputModal(true)}
-        className="flex flex-row items-center justify-start w-full pt-8">
+        className={`flex flex-row items-center justify-start w-full pt-8 ${Platform.OS === 'ios' && 'pt-10'}`}>
              <TouchableOpacity onPress={()=>setInputModal(true)}
              className="flex items-center justify-center w-[44px] h-[44px] bg-[#EBF8FF] rounded-lg">
                 <Location width={20.6} height={26.12} />

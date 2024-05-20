@@ -8,7 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View,Platform
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
@@ -121,12 +121,12 @@ export default function SendPackage({ setTab }) {
   const data = useSelector((state) => state.order.orderCharges);
 
   return (
-    <SafeAreaView className="flex items-start justify-start w-full h-full bg-white px-5 pt-8">
+    <SafeAreaView className="flex items-center justify-center w-full h-full bg-white px-5 pt-8">
       {/*HEADER */}
-      <View className="relative flex items-start justify-start w-full bg-white pb-1 shadow-2xl">
+      <View className={`flex items-center justify-start w-full bg-white pb-1 shadow-2xl ${Platform.OS === 'ios' && 'mt-6 w-[100%]'}`}>
         <TouchableOpacity
           onPress={() => setTab("Home")}
-          className="absolute left-0 flex flex-row items-center justify-start w-full"
+          className={`flex flex-row items-center justify-start w-full ${Platform.OS === 'ios' && 'mt-5 w-[90%]'}`}
         >
           <Feather name="arrow-left" size={18} color="#344054" />
           <Text
@@ -135,17 +135,17 @@ export default function SendPackage({ setTab }) {
             Back
           </Text>
         </TouchableOpacity>
-        <Text className={`text-2xl text-[#101828] font-['bold'] mt-9`}>
+        <Text className={`text-2xl text-[#101828] font-['bold'] w-full mt-5 ${Platform.OS === 'ios' && 'w-[90%]'}`}>
           New Order
         </Text>
       </View>
 
       <ScrollView
-        contentContainerStyle={{ paddingBottom: 30 }}
+        contentContainerStyle={{ paddingBottom: 30, width: Platform.OS === 'ios' && '90%'  }}
         showsVerticalScrollIndicator={false}
       >
         {/*PICKUP AND DELIVERY LOCATIONS TABS */}
-        <View className="flex items-center justify-start w-full mt-9">
+        <View className={`flex items-center justify-start w-full mt-9`}>
           {details.map((item) => {
             return (
               <TouchableOpacity
@@ -266,7 +266,7 @@ export default function SendPackage({ setTab }) {
 
           {/* SENDER AND RECIEVER PAY */}
           {payment === "transfer" && (
-            <View className="flex items-start justify-center border-[1px] border-[#E4E7EC] h-[82px] w-full rounded-lg mb-5 pl-4">
+            <View className="flex items-start justify-center border-[1px] border-[#E4E7EC] h-[82px] w-full rounded-lg mb-5 px-5">
               <TouchableOpacity
                 onPress={() => hanldeWhoPays("sender")}
                 className="flex flex-row items-center justify-start mb-4"
@@ -338,14 +338,14 @@ export default function SendPackage({ setTab }) {
         {/* BUTTON */}
         <TouchableOpacity
           onPress={handleSummary}
-          className={`flex items-center justify-center h-11 w-full rounded-lg bg-[#0077B6] mt-3 ${
+          className={`flex items-center justify-center h-11 w-full rounded-lg bg-[#0077B6] mt-3 px-4 ${
             summary && "opacity-30"
           }`}
         >
           {loading ? (
             <ActivityIndicator size="large" color="#ffffff" />
           ) : (
-            <Text className={`text-base text-[#FFFFFF] font-['bold'] ml-2`}>
+            <Text className={`text-base text-[#FFFFFF] font-['bold']`}>
               Order Summary
             </Text>
           )}

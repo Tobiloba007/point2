@@ -92,8 +92,11 @@ export const loginAction = (values, setLoading, setError, navigation) => async (
             dispatch(setUser(response.data.data.user_data))
             const access_token = response.data.data.access_token
             AsyncStorage.setItem('loginToken', access_token)
-            navigation.navigate('tab');
             // console.log(access_token)
+            {
+              response.data.data.user_data.type === 'USER' ?
+              navigation.navigate('tab') : setError('User not found')
+            }
           } else if (response.status !== 200) {
             console.log('Registration failed with status code:', response.status);
           } 

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -47,10 +47,10 @@ export default function Register() {
     }
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-start bg-white pt-8">
+    <SafeAreaView className={`flex-1 items-center justify-start bg-white pt-8`}>
 
         <TouchableOpacity onPress={()=>navigation.goBack()}
-        className="flex flex-row items-center justify-start w-full px-5 pb-3">
+        className={`flex flex-row items-center justify-start w-full px-5 pb-3 ${Platform.OS === 'ios' && 'pt-7'}`}>
               <Feather name="arrow-left" size={18} color="#344054" />
               <Text className={`text-xs text-[#344054] font-['medium'] pl-2 pb-[2px]`}>Back</Text>
         </TouchableOpacity>

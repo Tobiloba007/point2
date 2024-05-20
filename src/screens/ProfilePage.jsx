@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, Platform } from 'react-native'
 import React, { useState } from 'react'
 import Profile from '../components/profilePage/Profile'
 import User from '../../assets/icon/user.svg'
@@ -37,7 +37,7 @@ export default function ProfilePage({setDeleteCard}) {
   ]
 
   return (
-    <SafeAreaView className='flex-1 items-center justify-start pt-8'>
+    <SafeAreaView className={`flex-1 items-center justify-start pt-8 ${Platform.OS === 'ios' && 'mt-9'}`}>
         {pages === 0
          ? <Profile buttons={buttons} setPages={setPages} />
          : pages === 1 

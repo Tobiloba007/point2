@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -72,15 +72,15 @@ export default function VerifyAccount({ route }) {
 
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-start px-5 bg-white pt-8">
+    <SafeAreaView className={`flex-1 items-center justify-start px-5 bg-white pt-8 ${Platform.OS === 'ios' && 'pt-5'}`}>
 
     <TouchableOpacity onPress={()=>navigation.goBack()}
-    className="flex flex-row items-center justify-start w-full">
+    className={`flex flex-row items-center justify-start w-full ${Platform.OS === 'ios' && 'pt-5 w-[85%]'}`}>
           <Feather name="arrow-left" size={18} color="#344054" />
           <Text className={`text-xs text-[#344054] font-['medium'] pl-2 pb-[2px]`}>Back</Text>
     </TouchableOpacity>
     
-    <View className="items-start w-full mt-8">
+    <View className={`items-start w-full mt-8 ${Platform.OS === 'ios' && 'w-[85%]'}`}>
          <Text className={`text-2xl text-[#475467] font-['bold']`}>Verify your account</Text>
 
          <View className="relative flex flex-row items-center justify-starrt w-full">
@@ -93,7 +93,7 @@ export default function VerifyAccount({ route }) {
     </View>
 
 
-    <KeyboardAvoidingView className="flex items-center justify-start w-full">
+    <KeyboardAvoidingView className={`flex items-center justify-start w-full ${Platform.OS === 'ios' && 'w-[85%]'}`}>
 
     <View className="items-center justify-start w-full mt-10">
            <View className="flex-row items-center justify-between w-[80%]">

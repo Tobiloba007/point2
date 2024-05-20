@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StatusBar, SafeAreaView, TouchableOpacity, Platform, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import All from '../components/activityPage/All';
 import Delivered from '../components/activityPage/Delivered';
@@ -44,7 +44,7 @@ export default function ActivityPage() {
   }
 
   return (
-    <View className="flex-1 items-center justify-start w-full bg-white pt-8">
+    <View className={`flex-1 items-center justify-start w-full bg-white pt-8 ${Platform.OS === 'ios' && 'pt-8'}`}>
 
          <Text className={`text-lg text-[#344054] font-['bold']`}>Activity</Text>
 

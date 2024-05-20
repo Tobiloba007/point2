@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ActivityIndicator,
+  Platform
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SimpleLineIcons } from "@expo/vector-icons";
@@ -40,15 +41,15 @@ export default function Login() {
 
   const handleSubmit = async (values) => {
     dispatch(loginAction(values, setLoading, setError, navigation));
-
-    console.log(values);
+    // console.log(values);
   };
 
+
   return (
-    <SafeAreaView className="flex-1 items-center justify-start px-5 pt-8">
+    <SafeAreaView className={`flex-1 items-center justify-start pt-8 w-full ${Platform.OS === 'ios' && 'mt-10'}`}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
-        className="flex flex-row items-center justify-start w-full"
+        className="flex flex-row items-center justify-start w-[85%]"
       >
         <Feather name="arrow-left" size={18} color="#344054" />
         <Text
@@ -58,7 +59,7 @@ export default function Login() {
         </Text>
       </TouchableOpacity>
 
-      <View className="items-start w-full mt-8">
+      <View className="items-start w-[85%] mt-8">
         <Text className={`text-2xl text-[#101828] font-['bold']`}>Login</Text>
         <View className="flex flex-row items-center justify-start w-full">
           <Text className={`text-sm text-[#475467] font-['medium'] mt-3`}>
@@ -90,7 +91,7 @@ export default function Login() {
           isValid,
           handleSubmit,
         }) => (
-          <KeyboardAvoidingView className="flex items-center justify-start w-full">
+          <KeyboardAvoidingView className="flex items-center justify-start w-[85%]">
             <View className="relative items-start justify-start w-full mt-10">
               <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>
                 Phone number

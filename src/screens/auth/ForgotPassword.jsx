@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -34,12 +34,12 @@ export default function ForgotPassword() {
     style={{paddingTop: StatusBar.currentHeight}}>
 
     <TouchableOpacity onPress={()=>navigation.goBack()}
-    className="flex flex-row items-center justify-start w-full">
+    className={`flex flex-row items-center justify-start w-full ${Platform.OS === 'ios' && 'pt-5 w-[85%]'}`}>
           <Feather name="arrow-left" size={18} color="#344054" />
           <Text className={`text-xs text-[#344054] font-['medium'] pl-2 pb-[2px]`}>Back</Text>
     </TouchableOpacity>
     
-    <View className="items-start w-full mt-8">
+    <View className={`items-start w-full mt-8 ${Platform.OS === 'ios' && 'w-[85%]'}`}>
          <Text className={`text-2xl text-[#101828] font-['bold']`}>Forgot Password</Text>
          <View className="flex flex-row items-center justify-start w-full">
              <Text className={`text-sm text-[#475467] font-['medium'] mt-3`}>
@@ -65,7 +65,7 @@ export default function ForgotPassword() {
             isValid,
             handleSubmit,
           }) => (
-    <KeyboardAvoidingView className="flex items-center justify-start w-full">
+    <KeyboardAvoidingView className={`flex items-center justify-start w-full ${Platform.OS === 'ios' && 'pt-5 w-[85%]'}`}>
 
     <View className="relative items-start justify-start w-full mt-10">
           <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Phone number</Text>

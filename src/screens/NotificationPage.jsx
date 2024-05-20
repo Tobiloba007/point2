@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native'
 import React from 'react'
 import Delivered from '../../assets/icon/delivered.svg'
 import Picked from '../../assets/icon/picked.svg'
@@ -42,7 +42,7 @@ export default function NotificationPage() {
   }
 
   return (
-    <View className="flex-1 items-center justify-start w-full bg-white px-5 pt-8">
+    <View className={`flex-1 items-center justify-start w-full bg-white px-5 pt-8 ${Platform.OS === 'ios' && 'pt-8'}`}>
          <Text className={`text-lg text-[#344054] font-['bold']`}>Notifications</Text>
 
 
