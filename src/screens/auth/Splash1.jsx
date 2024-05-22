@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
-import { colors } from '../../colors'
+import { colors } from '../../../constants/colors'
 import { useNavigation } from '@react-navigation/native'
 import { Animated, StyleSheet } from 'react-native';
 

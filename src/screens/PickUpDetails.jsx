@@ -9,7 +9,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View, Platform
+  View,
+  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -21,6 +22,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { useDispatch } from "react-redux";
 import { setPickUp } from "../features/orderSlice";
 import GooglePlaceInput from "../components/map-input";
+import { CountryPicker } from "react-native-country-codes-picker";
 
 const SignupSchema = Yup.object().shape({
   customer_name: Yup.string().required(),
@@ -38,6 +40,8 @@ export default function PickUpDetails({ route }) {
   const [selectedOption, setSelelctedOption] = useState("Select Category");
   const [landmark, setLandmark] = useState("");
   const [origin, setOrigin] = useState(null);
+  const [show, setShow] = useState(false);
+  const [countryCode, setCountryCode] = useState("" || "+234");
 
   const navigation = useNavigation();
 
@@ -94,12 +98,20 @@ export default function PickUpDetails({ route }) {
   };
 
   return (
-    <SafeAreaView className={`flex items-start justify-center w-full h-full bg-white pt-8`}>
+    <SafeAreaView
+      className={`flex items-start justify-center w-full h-full bg-white pt-8`}
+    >
       {/*HEADER */}
-      <View className={`relative flex items-start justify-start w-full bg-white pb-1 shadow-2xl px-5 ${Platform.OS === 'ios' && 'w-[100%]'}`}>
+      <View
+        className={`relative flex items-start justify-start w-full bg-white pb-1 shadow-2xl px-5 ${
+          Platform.OS === "ios" && "w-[100%]"
+        }`}
+      >
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          className={`absolute left-5 flex flex-row items-center justify-start w-full ${Platform.OS === 'ios' && ' pt-5 w-[85%]'}`}
+          className={`absolute left-5 flex flex-row items-center justify-start w-full ${
+            Platform.OS === "ios" && " pt-5 w-[85%]"
+          }`}
         >
           <Feather name="arrow-left" size={18} color="#344054" />
           <Text
@@ -108,7 +120,11 @@ export default function PickUpDetails({ route }) {
             Back
           </Text>
         </TouchableOpacity>
-        <Text className={`text-2xl text-[#101828] font-['bold'] mt-9 ${Platform.OS === 'ios' && ' pt-4 w-[85%]'}`}>
+        <Text
+          className={`text-2xl text-[#101828] font-['bold'] mt-9 ${
+            Platform.OS === "ios" && " pt-4 w-[85%]"
+          }`}
+        >
           Pickup details
         </Text>
       </View>
@@ -177,7 +193,7 @@ export default function PickUpDetails({ route }) {
                 </Text>
                 <View className="relative w-full">
                   <TextInput
-                    className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-[75px] text-[#667085] 
+                    className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-[87px] text-[#667085] 
                       text-base font-['regular'] ${
                         touched.customer_phone &&
                         errors.customer_phone &&
@@ -198,7 +214,7 @@ export default function PickUpDetails({ route }) {
                       invalid phone number format
                     </Text>
                   )}
-                  <View className="absolute top-4 left-4 flex flex-row items-center justify-center">
+                  {/* <View className="absolute top-4 left-4 flex flex-row items-center justify-center">
                     <Text
                       className={`text-base text-[#101828] font-['regular'] mr-1`}
                     >
@@ -209,7 +225,26 @@ export default function PickUpDetails({ route }) {
                       size={12}
                       color="#667085"
                     />
-                  </View>
+                  </View> */}
+                  <TouchableOpacity
+                    onPress={() => setShow(true)}
+                    className="absolute top-[18px] left-4 flex flex-row items-center justify-center"
+                  >
+                    <Text
+                      // style={{
+                      //   color: "white",
+                      //   fontSize: 20,
+                      // }}
+                      className={`text-base text-[#101828] font-['regular'] mr-1`}
+                    >
+                      {countryCode}
+                    </Text>
+                    <SimpleLineIcons
+                      name="arrow-down"
+                      size={12}
+                      color="#667085"
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
 
@@ -242,7 +277,7 @@ export default function PickUpDetails({ route }) {
                     invalid email format
                   </Text>
                 )}
-                <View className="absolute top-[46px] left-4 flex flex-row items-center justify-start">
+                <View className="absolute top-[47px] left-4 flex flex-row items-center justify-start">
                   <Feather name="mail" size={22} color="#667085" />
                 </View>
               </View>
@@ -368,7 +403,7 @@ export default function PickUpDetails({ route }) {
             <TouchableOpacity
               onPress={handleSubmit}
               // disabled={!isValid || selectedOption === "Select Category"}
-              className={`flex items-center justify-center h-11 w-full rounded-lg bg-[#0077B6] mt-12 ${
+              className={`flex items-center justify-center h-11 w-full rounded-lg bg-[#0077B6] mt-10 ${
                 !isValid && "opacity-30"
               } ${selectedOption === "Select Category" && "opacity-30"}`}
             >
@@ -379,6 +414,20 @@ export default function PickUpDetails({ route }) {
           </ScrollView>
         )}
       </Formik>
+
+      <CountryPicker
+        onBackdropPress={() => setShow(false)}
+        style={{
+          modal: {
+            height: 500,
+          },
+        }}
+        show={show}
+        pickerButtonOnPress={(item) => {
+          setCountryCode(item.dial_code);
+          setShow(false);
+        }}
+      />
     </SafeAreaView>
   );
 }

@@ -57,9 +57,9 @@ export default function RecentOrders({setTab}) {
             </View>
             }
 
-           {!empty && data.map((item) => {
+           {!empty && data.map((item, index) => {
                 return(
-           <View className="flex items-center justify-start w-full rounded-2xl bg-[#F3FBFF] mt-5 p-4">
+           <View key={index} className="flex items-center justify-start w-full rounded-2xl bg-[#F3FBFF] mt-5 p-4">
                 <View className="flex flex-row items-start justify-start w-full">
                     <Box />
                     <View className="flex-1 items-start justify-start ml-4">
