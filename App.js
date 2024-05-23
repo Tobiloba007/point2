@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import store from "./src/store";
 import AppStack from "./src/AppStack";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-// import Index from "./Index";
+import Index from "./Index";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,9 +32,10 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView className="flex-1" onLayout={onLayoutRootView}>
+    <GestureHandlerRootView className="flex-1">
       <Provider store={store}>
-          <AppStack />
+          {/* <AppStack /> */}
+          <Index />
       </Provider>
     </GestureHandlerRootView>
   );

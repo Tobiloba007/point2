@@ -19,7 +19,7 @@ import Eye from "../../../assets/icon/eye.svg";
 import EyeSlash from "../../../assets/icon/eye-slash.svg";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../features/actions/Authentication";
 import Layout from "../../../layouts/layout";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

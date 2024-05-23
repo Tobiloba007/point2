@@ -11,7 +11,7 @@ import {
   StyleSheet,
   Pressable,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Camera from "../../../assets/icon/camera.svg";
 import Gift from "../../../assets/icon/giftPackage.svg";
 import User from "../../../assets/icon/user.svg";
@@ -20,11 +20,41 @@ import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { BASE_URL } from "../../../constants/base_urls";
 
 export default function Profile({ buttons, setPages }) {
   const [image, setImage] = useState(null);
+  const access_token = useSelector((state) => state.auth.token);
 
   const navigation = useNavigation();
+
+  const uploadImage = (image, mime) => {
+    (async () => {
+      try {
+        let form = new FormData();
+        form.append("profile_picture", {
+          uri: image,
+          type: mime,
+          name: "profile_picture",
+        });
+
+        const resp = await axios.post(
+          `${BASE_URL}/profile/upload-photo`,
+          form,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: "Bearer " + access_token ?? "",
+            },
+          }
+        );
+        console.log(resp);
+      } catch (error) {
+        console.log("error uploadig", error);
+      }
+    })();
+  };
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -35,10 +65,11 @@ export default function Profile({ buttons, setPages }) {
       quality: 1,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      uploadImage(result.assets[0].uri, result.assets[0].mimeType);
     }
   };
 
@@ -47,7 +78,7 @@ export default function Profile({ buttons, setPages }) {
   // useEffect(()=>{
   //   console.log(user, 'USER DATA');
   // },[])
-console.log(user);
+
   return (
     <ScrollView>
       <View
