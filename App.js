@@ -32,10 +32,10 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView className="flex-1">
+    <GestureHandlerRootView className="flex-1" onLayout={onLayoutRootView}>
       <Provider store={store}>
-          {/* <AppStack /> */}
-          <Index />
+          <AppStack />
+          {/* <Index /> */}
       </Provider>
     </GestureHandlerRootView>
   );

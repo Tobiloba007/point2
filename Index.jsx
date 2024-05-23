@@ -78,7 +78,7 @@ const Index = () => {
                 }
             } catch (error) {
                 console.log("error fetching user",error);
-                setFetchedUser(true); // remove later if api is provided
+                // setFetchedUser(true); // remove later if api is provided
             }
         }
       };
@@ -99,7 +99,7 @@ const Index = () => {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "white",
+          backgroundColor: "black",
         }}
       >
         <Image

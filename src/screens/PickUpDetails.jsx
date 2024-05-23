@@ -12,7 +12,7 @@ import {
   View,
   Platform,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
@@ -23,6 +23,9 @@ import { useDispatch } from "react-redux";
 import { setPickUp } from "../features/orderSlice";
 import GooglePlaceInput from "../components/map-input";
 import { CountryPicker } from "react-native-country-codes-picker";
+import BottomSheet from "../components/Bottomsheet/Bottomsheet";
+import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import CustomRadioButton from "../components/RadioButton/RadioButton";
 
 const SignupSchema = Yup.object().shape({
   customer_name: Yup.string().required(),
@@ -36,6 +39,7 @@ const SignupSchema = Yup.object().shape({
 
 export default function PickUpDetails({ route }) {
   const { setPickup } = route.params;
+  const navigation = useNavigation();
   const [dropDown, setDropDown] = useState(false);
   const [selectedOption, setSelelctedOption] = useState("Select Category");
   const [landmark, setLandmark] = useState("");
@@ -43,7 +47,27 @@ export default function PickUpDetails({ route }) {
   const [show, setShow] = useState(false);
   const [countryCode, setCountryCode] = useState("" || "+234");
 
-  const navigation = useNavigation();
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ["25%", "50%"], []);
+
+  const [radioBtnChecked, setRadioBtnChecked] = useState(null);
+
+  const closeBottomSheet = () => {
+    setDropDown(false);
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.close();
+    }
+  };
+
+  const setBottomSheetFn = (item, index) => {
+    if (radioBtnChecked !== index) {
+      setRadioBtnChecked(index);
+      setSelelctedOption(item);
+    } else {
+      setRadioBtnChecked(null);
+      setSelelctedOption(item);
+    }
+  };
 
   const ScreenWidth = Dimensions.get("window").width;
 
@@ -371,7 +395,7 @@ export default function PickUpDetails({ route }) {
                       />
                     )}
                   </TouchableOpacity>
-                  {dropDown && (
+                  {/* {dropDown && (
                     <View className="absolute top-14 w-full bg-white border-[1px] z-50 border-[#D0D5DD] rounded-lg shadow-slate-600">
                       {options.map((item) => {
                         return (
@@ -394,7 +418,7 @@ export default function PickUpDetails({ route }) {
                         );
                       })}
                     </View>
-                  )}
+                  )} */}
                 </View>
               </View>
             </View>
@@ -428,6 +452,67 @@ export default function PickUpDetails({ route }) {
           setShow(false);
         }}
       />
+
+      {dropDown && (
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={1}
+          snapPoints={snapPoints}
+          style={{ padding: 0 }}
+          onChange={(index) => {
+            if (index === -1 || index === 0) {
+              closeBottomSheet();
+            }
+          }}
+        >
+          <BottomSheetFlatList
+            style={{ marginHorizontal: 10 }}
+            scrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+            data={options}
+            renderItem={({ item, index }) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setBottomSheetFn(item?.name, index);
+                    setDropDown(false);
+                  }}
+                  style={{
+                    marginBottom: 5,
+                    paddingVertical: 25,
+                    paddingHorizontal: 15,
+                    backgroundColor: "#f6f6f6",
+                    borderWidth: 1,
+                    borderColor: "#ededed",
+                    borderRadius: 8,
+                  }}
+                >
+                  <View
+                    style={{
+                      alignItems: "center",
+                      flexDirection: "row",
+                      gap: 20,
+                    }}
+                  >
+                    <Text style={{ fontWeight: "400", fontSize: 13, flex: 1 }}>
+                      {item.name}
+                    </Text>
+                    <CustomRadioButton
+                      value={index}
+                      selected={radioBtnChecked === index}
+                      onSelect={() => {
+                        setBottomSheetFn(item?.name, index);
+                        setDropDown(false);
+                      }}
+                    />
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+            alwaysBounceVertical={false}
+          />
+        </BottomSheet>
+      )}
     </SafeAreaView>
   );
 }

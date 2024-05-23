@@ -47,9 +47,6 @@ const AppStack = () => {
             <Stack.Screen name="pickUpDetails" component={PickUpDetails} />
             <Stack.Screen name="deliveryLocation" component={DeliveryLocation} />
             <Stack.Screen name="sendPackageSuccess" component={SendPackageSuccess} />
-
-
-
         </Stack.Navigator>
     </NavigationContainer>
   );

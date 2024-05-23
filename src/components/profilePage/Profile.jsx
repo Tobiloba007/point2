@@ -24,8 +24,9 @@ import axios from "axios";
 import { BASE_URL } from "../../../constants/base_urls";
 
 export default function Profile({ buttons, setPages }) {
-  const [image, setImage] = useState(null);
   const access_token = useSelector((state) => state.auth.token);
+  const user = useSelector((state) => state.auth.user);
+  const [image, setImage] = useState(null);
 
   const navigation = useNavigation();
 
@@ -49,7 +50,9 @@ export default function Profile({ buttons, setPages }) {
             },
           }
         );
-        console.log(resp);
+        if (resp.data.status_code == 200) {
+          alert(resp.data.message);
+        }
       } catch (error) {
         console.log("error uploadig", error);
       }
@@ -72,9 +75,6 @@ export default function Profile({ buttons, setPages }) {
       uploadImage(result.assets[0].uri, result.assets[0].mimeType);
     }
   };
-
-  const user = useSelector((state) => state.auth.user);
-
   // useEffect(()=>{
   //   console.log(user, 'USER DATA');
   // },[])
