@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {
   View,
   Text,
@@ -20,16 +19,6 @@ import { CountryPicker } from "react-native-country-codes-picker";
 import Layout from "../../../layouts/layout";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/base_urls";
-=======
-import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, Dimensions, ScrollView } from 'react-native'
-import React, { useState } from 'react'
-import { SimpleLineIcons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { editDetails } from '../../features/actions/General'
-
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
 
 export default function EditDetails({ setPages }) {
   const user = useSelector((state) => state.auth.user);
@@ -44,20 +33,10 @@ export default function EditDetails({ setPages }) {
   const [show, setShow] = useState(false);
   const [countryCode, setCountryCode] = useState("" || "+234");
 
-<<<<<<< HEAD
   const navigation = useNavigation();
-=======
-export default function EditDetails({setPages}) {
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const user = useSelector((state) => state.auth.user)
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
 
   const screenWidth = Dimensions.get("window").width;
 
-<<<<<<< HEAD
   const values = {
     first_name: firstName,
     last_name: lastName,
@@ -84,20 +63,6 @@ export default function EditDetails({setPages}) {
       }
     } catch (error) {
       console.log("error editing user", error);
-=======
-    const navigation = useNavigation();
-
-    const dispatch = useDispatch()
-
-    const screenWidth = Dimensions.get('window').width;
-
-    const values = {'first_name': firstName, 'last_name': lastName, 'phone': phone, 'email': email}
-
-    const handleSubmit = () => {
-      dispatch(editDetails(values, setError, setSuccess, setLoading))
-      // setPages(0)
-      // console.log(values);
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
     }
   };
 
@@ -139,7 +104,6 @@ export default function EditDetails({setPages}) {
             <TextInput
               className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
                   text-[#344054] pl-5`}
-<<<<<<< HEAD
               placeholder="First Name"
               placeholderTextColor={"#667085"}
               value={firstName}
@@ -216,82 +180,9 @@ export default function EditDetails({setPages}) {
             />
             <View className="absolute bottom-[13px] left-4 flex flex-row items-center justify-start">
               <Feather name="mail" size={22} color="#667085" />
-=======
-                  placeholder={user.first_name}
-                  placeholderTextColor={'#667085'}
-                  value={firstName}
-                  onChangeText={(text)=>setFirstName(text)}
-                  keyboardType='default'
-                  />
-            </View>
-
-              {/* LAST NAME */}
-            <View className="relative items-start justify-start w-full mt-3">
-                  <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Last Name</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-5"
-                  placeholder={user.last_name}
-                  placeholderTextColor={'#667085'}
-                  value={lastName}
-                  onChangeText={(text)=>setLastName(text)}
-                  keyboardType='default'
-                  />
-            </View>
-
-            {/* PHONE */}
-            <View className="relative items-start justify-start w-full mt-3">
-                  <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Phone number</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-[87px]"
-                  placeholder={user.phone}
-                  placeholderTextColor={'#667085'}
-                  value={phone}
-                  onChangeText={(text)=>setPhone(text)}
-                  keyboardType='number-pad'
-                  />
-                  <View className="absolute bottom-[13px] left-4 flex flex-row items-center justify-start">
-                      <Text className={`text-base text-[#101828] font-['regular'] mr-1`}>+234</Text>
-                      <SimpleLineIcons name="arrow-down" size={12} color="#667085" />
-                  </View>
-            </View>
-
-            {/* EMAIL */}
-            <View className="relative items-start justify-start w-full mt-3">
-                  <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Email Address</Text>
-                  <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-14"
-                  placeholder={user.email}
-                  placeholderTextColor={'#667085'}
-                  value={email}
-                  onChangeText={(text)=>setEmail(text)}
-                  keyboardType='email-address'
-                  />
-                  <View className="absolute bottom-[13px] left-4 flex flex-row items-center justify-start">
-                      <Feather name="mail" size={22} color="#667085" />
-                  </View>
-            </View>
-
-
-            <View className='w-full mt-20'>
-              {success &&
-               <Text className={`w-full text-start text-sm text-green-600 font-['medium'] pb-2`}>{success}</Text>
-              }
-              {error &&
-               <Text className={`w-full text-start text-sm text-red-600 font-['medium'] pb-2`}>{error}</Text>
-              }
-
-              {/* BUTTON */}
-            <View className="flex items-center justify-center w-full">
-                  <TouchableOpacity onPress={handleSubmit} 
-                  className="flex items-center justify-center h-12 w-full rounded-lg bg-[#0077B6]">
-                      {loading ? (
-                        <ActivityIndicator size="large" color="#ffffff" />
-                      ) : (
-                        <Text className={`text-base font-[bold] text-white`}>Save Changes</Text>
-                      )}
-                  </TouchableOpacity>
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
             </View>
           </View>
 
-<<<<<<< HEAD
           {/* BUTTON */}
           <View className="flex items-center justify-center w-full mt-12">
             <TouchableOpacity
@@ -303,10 +194,6 @@ export default function EditDetails({setPages}) {
               </Text>
             </TouchableOpacity>
           </View>
-=======
-            </View>
-
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
         </KeyboardAvoidingView>
       </View>
       <CountryPicker

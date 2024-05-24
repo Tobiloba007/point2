@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {
   View,
   Text,
@@ -23,30 +22,12 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../../../constants/base_urls";
-=======
-import { View, Text, SafeAreaView, StatusBar, Image, TouchableOpacity, TextInput, ScrollView, Platform } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import Camera from '../../../assets/icon/camera.svg'
-import Gift from '../../../assets/icon/giftPackage.svg'
-import User from '../../../assets/icon/user.svg'
-import { MaterialIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
-import { useNavigation } from '@react-navigation/native'
-import { useDispatch, useSelector } from 'react-redux'
-import { UploadPicture } from '../../features/actions/General'
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
 
 export default function Profile({ buttons, setPages }) {
   const access_token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.auth.user);
-  const [image, setImage] = useState(null);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
-
+  const [image, setImage] = useState(user.profile_picture);
   const navigation = useNavigation();
-
-<<<<<<< HEAD
   const uploadImage = (image, mime) => {
     (async () => {
       try {
@@ -75,12 +56,6 @@ export default function Profile({ buttons, setPages }) {
       }
     })();
   };
-=======
-  const dispatch = useDispatch()
-
-  const user = useSelector((state) => state.auth.user)
-
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -93,29 +68,14 @@ export default function Profile({ buttons, setPages }) {
 
     // console.log(result);
 
-    
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-<<<<<<< HEAD
       uploadImage(result.assets[0].uri, result.assets[0].mimeType);
     }
   };
   // useEffect(()=>{
   //   console.log(user, 'USER DATA');
   // },[])
-=======
-
-    const formData = new FormData();
-    formData.append('profile_picture', {
-      uri: image,
-      name: 'profile.jpg',
-      type: 'image/jpeg',
-    });
-    dispatch(UploadPicture(formData, setError, setLoading))
-    }
-  };
-
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
 
   return (
     <ScrollView>
@@ -128,39 +88,19 @@ export default function Profile({ buttons, setPages }) {
           Profile
         </Text>
 
-<<<<<<< HEAD
         <View className="flex flex-row items-center justify-start w-full mt-5">
           {/* <View className='relative'>
                    {user.profile_picture === null && 
-=======
-         <View className='flex flex-row items-center justify-start w-full mt-5'>
-              <View className='relative'>
-                  {image && user.profile_picture === null && 
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
                     <View className='flex items-center justify-center h-16 w-16 rounded-full bg-[#F9FAFB]'>
                         <User className='w-20 h-20' />
                     </View>
                   }
-<<<<<<< HEAD
                    {image && <Image className='w-16 h-16 rounded-full'  source={{ uri: image }} />}
                    <TouchableOpacity onPress={pickImage}
                    className='absolute bottom-0 -right-1 flex items-center justify-center h-6 w-6 rounded-full bg-[#0077B6]'>
                        <Camera />
                    </TouchableOpacity>
               </View> */}
-=======
-                  {user.profile_picture  !== null  && image === null &&
-                    <Image className='w-16 h-16 rounded-full'  source={{ uri: user.profile_picture  }} />
-                  }
-                  {image  !== null  && 
-                    <Image className='w-16 h-16 rounded-full'  source={{ uri: image  }} />
-                  }
-                  <TouchableOpacity onPress={pickImage}
-                  className='absolute bottom-0 -right-1 flex items-center justify-center h-6 w-6 rounded-full bg-[#0077B6]'>
-                      <Camera />
-                  </TouchableOpacity>
-              </View>
->>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
 
           <Pressable onPress={pickImage} style={styles.imageContainer}>
             <Image
