@@ -27,7 +27,11 @@ const Tracking = ({ route }) => {
   const { data } = route.params;
   
   // const apiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
+<<<<<<< HEAD
   const apiKey = "AIzaSyCwBek1VbADBzfIdYFW0R6UQmCoogeqyoc"
+=======
+  const apiKey = 'AIzaSyCwBek1VbADBzfIdYFW0R6UQmCoogeqyoc';
+>>>>>>> e1eaaa54ae1ad584f554d19dc9b2199264112d1c
   const { width, height } = Dimensions.get("window");
   const handleCallPress = () => {
     const phoneUrl = `tel:${"09023456789"}`;

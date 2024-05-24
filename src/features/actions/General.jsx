@@ -151,7 +151,7 @@ export const getAllOrders =
       });
       if (response.status === 200) {
         setActivity(response.data.data.orders.data);
-        // console.log(response.data.data.orders.data.length)
+        // console.log(response.data.data.orders.data)
         if (response.data.data.orders.data.length === 0) {
           setEmpty(true);
         }
@@ -202,4 +202,73 @@ export const getSingleActivity =
     }
 
     setLoadDetails(false);
+  };
+
+
+
+  // UPLOAD PICTURE
+  export const UploadPicture = (formData, setError, setLoading) => async (dispatch) => {
+    const loginToken = await AsyncStorage.getItem('loginToken');
+    const headers = {
+      'Authorization': `Bearer ${loginToken}`,
+      'Content-Type': 'multipart/form-data',
+    };
+    setLoading(true)
+     try{
+       const response = await axios.post(`${BASE_URL}/profile/upload-photo`, formData, { headers });
+       if (response.status === 200) {
+         console.log(response.data.message)
+       } else if (response.status !== 200) {
+         console.log('picture upload failed with status code:', response.status);
+       } 
+     } catch(error) {
+         if (error.response) {
+           // The server responded with an error (e.g., HTTP status code 4xx or 5xx)
+           setError(error.response, 'ERROR')
+           // console.log(error.response.data.message)
+           console.error('API Error:', error.response.data.status);
+         } else if (error.request) {
+           // The request was made but no response was received (e.g., network issue)
+           setError('Please check your internet connection...')
+           console.error('Network Error:', error.request);
+         } 
+       };
+     
+       setLoading(false)
+}
+
+
+// EDIT DETAILS
+export const editDetails = (values, setError, setSuccess, setLoading) => async () => {
+    const loginToken = await AsyncStorage.getItem("loginToken");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${loginToken}`,
+    };
+    setLoading(true);
+    setError('')
+    setSuccess('')
+    try {
+      const response = await axios.post(`${BASE_URL}/profile/edit-details`, values, { headers }
+      );
+      if (response.status === 200) {
+        setSuccess(response.data.message)
+        // console.log(response.data.message);
+      } else if (response.status !== 200) {
+        console.log("Registration failed with status code:", response.status);
+      }
+    } catch (error) {
+      if (error.response) {
+        // The server responded with an error (e.g., HTTP status code 4xx or 5xx)
+        setError(error.response.message);
+        console.log(error.response);
+        console.error("API Error:", error.response.status);
+      } else if (error.request) {
+        // The request was made but no response was received (e.g., network issue)
+        setError("Please check your internet connection...");
+        console.error("Network Error:", error.request);
+      }
+    }
+
+    setLoading(false);
   };
