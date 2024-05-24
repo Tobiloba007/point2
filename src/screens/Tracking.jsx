@@ -26,7 +26,8 @@ import { useNavigation } from "@react-navigation/native";
 const Tracking = ({ route }) => {
   const { data } = route.params;
   
-  const apiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
+  // const apiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
+  const apiKey = 'AIzaSyCwBek1VbADBzfIdYFW0R6UQmCoogeqyoc';
   const { width, height } = Dimensions.get("window");
   const handleCallPress = () => {
     const phoneUrl = `tel:${"09023456789"}`;

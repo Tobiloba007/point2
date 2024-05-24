@@ -28,7 +28,7 @@ export default function Delivered() {
       //   console.log(activity.length, 'lenght');
    }, [dispatch])
    
-   const deliveredData = activity.filter(item => item.status === 'Delivered');
+   const deliveredData = activity.filter(item => item.status === 'DELIVERED');
 
 
    const handleDetails = (item) => {

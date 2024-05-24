@@ -23,6 +23,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function ViewDetailsPage({ route }) {
   const { data } = route.params;
 
+
   const [copiedText, setCopiedText] = useState(data.package_name);
 
   const copyToClipboard = async () => {
@@ -86,7 +87,7 @@ export default function ViewDetailsPage({ route }) {
               Recipient Name
             </Text>
             <Text className={`text-sm text-[#344054] font-['bold'] pt-1`}>
-              Jimoh Adigun Taiwo
+              {data.recepient_name}
             </Text>
           </View>
 
@@ -106,7 +107,7 @@ export default function ViewDetailsPage({ route }) {
               Expected Delivery Time
             </Text>
             <Text className={`text-sm text-[#344054] font-['bold'] pt-1`}>
-              1hr 3ms
+              {data.time}
             </Text>
           </View>
 
@@ -115,7 +116,7 @@ export default function ViewDetailsPage({ route }) {
               Amount Paid (N)
             </Text>
             <Text className={`text-sm text-[#344054] font-['bold'] pt-1`}>
-              5,000.00
+               ₦{data.amount}
             </Text>
           </View>
         </View>
@@ -147,13 +148,25 @@ export default function ViewDetailsPage({ route }) {
 
           <View className="flex flex-row items-start justify-start w-full mt-8 pb-2 pl-5">
             <Text className={`text-sm text-[#344054] font-['bold']`}>
-              Status: {data.status}
+            Status: {
+              data.status === 'ASSIGNEDTORIDER' ? 'Assigned To Rider'
+             :data.status === 'PENDING' ? 'Pending'
+             :data.status === 'INTRANSIT' ? 'In-Transit'
+             :data.status === 'DELIVERED' ? 'Delivered'
+             :data.status === 'CANCELLED' && 'Cancelled'
+            }
             </Text>
             <View className="ml-1">
               <Ionicons
                 name="checkmark-circle-outline"
                 size={20}
-                color="#27AE60"
+                color={
+                  data.status === 'DELIVERED' ? '#32D583'
+                 :data.status === 'CANCELLED' ? '#EB5757'
+                 :data.status === 'ASSIGNEDTORIDER' ? '#32D583'
+                 :data.status === 'PENDING' ? '#F2994A'
+                 :data.status === 'INTRANSIT' && '#F2994A'
+              }
               />
             </View>
           </View>

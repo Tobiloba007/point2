@@ -28,7 +28,7 @@ export default function Canceled() {
       //   console.log(activity.length, 'lenght');
    }, [dispatch])
    
-   const cancelledData = activity.filter(item => item.status === 'Canceled');
+   const cancelledData = activity.filter(item => item.status === 'CANCELLED');
 
 
    const handleDetails = (item) => {
@@ -104,11 +104,7 @@ export default function Canceled() {
                           </Text>
                           <View className="ml-1">
                              <Ionicons name="checkmark-circle-outline" size={20} 
-                             color={
-                                item.status === 'Delivered' ? '#32D583'
-                               :item.status === 'Canceled' ? '#EB5757'
-                               :item.status === 'In-transit' && '#F2994A'
-                            } 
+                             color="#EB5757" 
                              />
                           </View>
                       </View>

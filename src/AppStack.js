@@ -25,7 +25,7 @@ const AppStack = () => {
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="tab"
+        <Stack.Navigator initialRouteName="login"
         screenOptions={{
           headerShown: false // Hide the header for all screens within Stack.Navigator
         }}>

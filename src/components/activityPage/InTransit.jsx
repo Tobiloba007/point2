@@ -28,7 +28,7 @@ export default function InTransit() {
       //   console.log(activity.length, 'lenght');
    }, [dispatch])
    
-   const inTransitData = activity.filter(item => item.status === 'In-transit');
+   const inTransitData = activity.filter(item => item.status === 'INTRANSIT');
 
 
    const handleDetails = (item) => {

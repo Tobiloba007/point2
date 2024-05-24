@@ -98,14 +98,22 @@ export default function RecentOrders({setTab}) {
 
                 <View className='flex flex-row items-start justify-start w-full mt-9 ml-9'>
                           <Text className={`text-sm text-[#344054] font-['bold']`}>
-                              Status: {item.status}
+                              Status: {
+                                item.status === 'ASSIGNEDTORIDER' ? 'Assigned To Rider'
+                               :item.status === 'PENDING' ? 'Pending'
+                               :item.status === 'INTRANSIT' ? 'In-Transit'
+                               :item.status === 'DELIVERED' ? 'Delivered'
+                               :item.status === 'CdANCELLED' && 'Cancelled'
+                              }
                           </Text>
                           <View className="ml-1">
                              <Ionicons name="checkmark-circle-outline" size={20} 
                              color={
-                                item.status === 'Delivered' ? '#32D583'
-                               :item.status === 'Canceled' ? '#EB5757'
-                               :item.status === 'In-transit' && '#F2994A'
+                                item.status === 'DELIVERED' ? '#32D583'
+                               :item.status === 'CANCELLED' ? '#EB5757'
+                               :item.status === 'ASSIGNEDTORIDER' ? '#32D583'
+                               :item.status === 'PENDING' ? '#F2994A'
+                               :item.status === 'INTRANSIT' && '#F2994A'
                             } 
                              />
                           </View>

@@ -1,13 +1,19 @@
-import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, Dimensions, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, Dimensions, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { editDetails } from '../../features/actions/General'
+
 
 
 
 export default function EditDetails({setPages}) {
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const user = useSelector((state) => state.auth.user)
 
   const [eye, setEye] = useState(false)
@@ -16,15 +22,17 @@ export default function EditDetails({setPages}) {
   const [phone, setPhone] = useState(user.phone)
   const [email, setEmail] = useState(user.email)
 
-
     const navigation = useNavigation();
+
+    const dispatch = useDispatch()
 
     const screenWidth = Dimensions.get('window').width;
 
     const values = {'first_name': firstName, 'last_name': lastName, 'phone': phone, 'email': email}
 
     const handleSubmit = () => {
-      setPages(0)
+      dispatch(editDetails(values, setError, setSuccess, setLoading))
+      // setPages(0)
       // console.log(values);
     }
 
@@ -51,7 +59,7 @@ export default function EditDetails({setPages}) {
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>First Name</Text>
                   <TextInput className={`mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] 
                   text-[#344054] pl-5`}
-                  placeholder='First Name'
+                  placeholder={user.first_name}
                   placeholderTextColor={'#667085'}
                   value={firstName}
                   onChangeText={(text)=>setFirstName(text)}
@@ -63,7 +71,7 @@ export default function EditDetails({setPages}) {
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Last Name</Text>
                   <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-5"
-                  placeholder='Last Name'
+                  placeholder={user.last_name}
                   placeholderTextColor={'#667085'}
                   value={lastName}
                   onChangeText={(text)=>setLastName(text)}
@@ -75,7 +83,7 @@ export default function EditDetails({setPages}) {
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Phone number</Text>
                   <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-[87px]"
-                  placeholder='90722245789'
+                  placeholder={user.phone}
                   placeholderTextColor={'#667085'}
                   value={phone}
                   onChangeText={(text)=>setPhone(text)}
@@ -91,7 +99,7 @@ export default function EditDetails({setPages}) {
             <View className="relative items-start justify-start w-full mt-3">
                   <Text className={`text-sm text-[#101828] font-['bold'] mt-3`}>Email Address</Text>
                   <TextInput className="mt-3 border-[1px] border-[#D0D5DD] rounded-lg h-12 w-full text-base font-['regular'] text-[#344054] pl-14"
-                  placeholder='example@mail.com'
+                  placeholder={user.email}
                   placeholderTextColor={'#667085'}
                   value={email}
                   onChangeText={(text)=>setEmail(text)}
@@ -102,12 +110,27 @@ export default function EditDetails({setPages}) {
                   </View>
             </View>
 
+
+            <View className='w-full mt-20'>
+              {success &&
+               <Text className={`w-full text-start text-sm text-green-600 font-['medium'] pb-2`}>{success}</Text>
+              }
+              {error &&
+               <Text className={`w-full text-start text-sm text-red-600 font-['medium'] pb-2`}>{error}</Text>
+              }
+
               {/* BUTTON */}
-            <View className="flex items-center justify-center w-full mt-24">
+            <View className="flex items-center justify-center w-full">
                   <TouchableOpacity onPress={handleSubmit} 
                   className="flex items-center justify-center h-12 w-full rounded-lg bg-[#0077B6]">
-                      <Text className={`text-base font-[bold] text-white`}>Save Changes</Text>
+                      {loading ? (
+                        <ActivityIndicator size="large" color="#ffffff" />
+                      ) : (
+                        <Text className={`text-base font-[bold] text-white`}>Save Changes</Text>
+                      )}
                   </TouchableOpacity>
+            </View>
+
             </View>
 
         </KeyboardAvoidingView>
