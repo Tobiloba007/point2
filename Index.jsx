@@ -34,24 +34,24 @@ const Index = () => {
   //     }
   //   }, []);
 
-//   const fetchUser = useCallback(async () => {
-//     if (accessTokenIsSet) {
-//       const response = await axios.get("url", {
-//         headers: {
-//           Authorization: "Bearer " + access_token ?? "",
-//         },
-//       });
-//       if (response.status === "success") {
-//         dispatch(setUser(response.data.data));
-//         setFetchedUser(true);
-//       } else {
-//         console.log("here");
-//         setFetchedUser(true);
-//       }
-//       console.log("abc");
-//     }
-//     setFetchedUser(true); // remove later if api is provided
-//   }, []);
+  const fetchUser = useCallback(async () => {
+    if (accessTokenIsSet) {
+      const response = await axios.get("url", {
+        headers: {
+          Authorization: "Bearer " + access_token ?? "",
+        },
+      });
+      if (response.status === "success") {
+        dispatch(setUser(response.data.data.user_data));
+        dispatch(setLoginToken(response.data.data.access_token))
+        setFetchedUser(true);
+      } else {
+        console.log("here");
+        setFetchedUser(true);
+      }
+    }
+    setFetchedUser(true); // remove later if api is provided
+  }, []);
 
   const onLayoutRootView = useCallback(async () => {
     if (fetchedUser) {
@@ -60,29 +60,9 @@ const Index = () => {
   }, [fetchedUser]);
 
   useEffect(() => {
-    const fetchUser = async () => {
-        if (accessTokenIsSet) {
-            try {
-                const response = await axios.get("url", {
-                  headers: {
-                    Authorization: "Bearer " + access_token ?? "",
-                  },
-                });
-                if (response.status === 200) {
-                  dispatch(setUser(response.data.data));
-                  dispatch(setLoginToken(response.data.data.access_token))
-                  setFetchedUser(true);
-                } else {
-                  console.log("here");
-                  setFetchedUser(true);
-                }
-            } catch (error) {
-                console.log("error fetching user",error);
-                // setFetchedUser(true); // remove later if api is provided
-            }
-        }
-      };
-      fetchUser()
+    if (accessTokenIsSet) {
+      fetchUser();
+    }
   }, [accessTokenIsSet]);
 
   useEffect(() => {
@@ -99,12 +79,11 @@ const Index = () => {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "black",
+          backgroundColor: "white",
         }}
       >
         <Image
           source={require("./assets/images/splashScreen.png")}
-          style={{ width: 200, height: 200 }}
           resizeMode="contain"
         />
       </View>
