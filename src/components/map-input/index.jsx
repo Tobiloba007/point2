@@ -3,11 +3,10 @@
 import React from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
-
-
-
 const GooglePlaceInput = ({ onSelectPlace }) => {
-  const apiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
+  // const apiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
+  const apiKey = "AIzaSyCwBek1VbADBzfIdYFW0R6UQmCoogeqyoc"
+  
   return (
     <GooglePlacesAutocomplete
       styles={{

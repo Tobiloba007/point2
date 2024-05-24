@@ -1,4 +1,4 @@
-import { SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native'
+import { Linking, Pressable, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Feather } from '@expo/vector-icons';
 import Phone from '../../../assets/icon/phone.svg'
@@ -18,13 +18,14 @@ export default function Support({setPages}) {
              <Text className={`absolute text-lg text-[#101828] font-['bold'] pl-2 pb-[2px]`}>Help & Support</Text>
         </View>
  
-
-        <View className='flex flex-row items-center justify-start w-full mt-12'>
+        <Pressable onPress={async () => await Linking.openURL(`tel: 09130812426`)} className='flex flex-row items-center justify-start w-full mt-12'>
+        {/* <View className='flex flex-row items-center justify-start w-full mt-12'> */}
              <View className='flex items-center justify-center h-12 w-12 bg-[#EBF8FF] rounded-full'>
                   <Phone />
              </View>
              <Text className={`text-base text-[#667085] font-['medium'] ml-5`}>Contact Us</Text>
-        </View>
+        {/* </View> */}
+        </Pressable>
 
 
         <View className='flex flex-row items-center justify-start w-full mt-8'>

@@ -19,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setDelivery } from "../features/orderSlice";
 import { useDispatch } from "react-redux";
 import GooglePlaceInput from "../components/map-input";
+import { CountryPicker } from "react-native-country-codes-picker";
 
 const SignupSchema = Yup.object().shape({
   delivery_point_name: Yup.string().required(),
@@ -33,6 +34,8 @@ export default function DeliveryLocation({ route }) {
   const { setDeliveryState } = route.params;
   const [destination, setDestination] = useState(null);
   const [landmark, setLandmark] = useState("");
+  const [show, setShow] = useState(false);
+  const [countryCode, setCountryCode] = useState("" || "+234");
 
   const navigation = useNavigation();
 
@@ -141,7 +144,7 @@ export default function DeliveryLocation({ route }) {
                 </Text>
                 <View className="relative w-full">
                   <TextInput
-                    className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-[75px] text-[#667085] 
+                    className={`h-11 w-full rounded-lg border-[#D0D5DD] border-[1px] mt-2 pl-[87px] text-[#667085] 
                       text-base font-['regular'] ${
                         touched.delivery_point_phone &&
                         errors.delivery_point_phone &&
@@ -163,7 +166,7 @@ export default function DeliveryLocation({ route }) {
                         invalid phone number format
                       </Text>
                     )}
-                  <View className="absolute top-4 left-4 flex flex-row items-center justify-center">
+                  {/* <View className="absolute top-4 left-4 flex flex-row items-center justify-center">
                     <Text
                       className={`text-base text-[#101828] font-['regular'] mr-1`}
                     >
@@ -174,7 +177,26 @@ export default function DeliveryLocation({ route }) {
                       size={12}
                       color="#667085"
                     />
-                  </View>
+                  </View> */}
+                  <TouchableOpacity
+                    onPress={() => setShow(true)}
+                    className="absolute top-[18px] left-4 flex flex-row items-center justify-center"
+                  >
+                    <Text
+                      // style={{
+                      //   color: "white",
+                      //   fontSize: 20,
+                      // }}
+                      className={`text-base text-[#101828] font-['regular'] mr-1`}
+                    >
+                      {countryCode}
+                    </Text>
+                    <SimpleLineIcons
+                      name="arrow-down"
+                      size={12}
+                      color="#667085"
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
 
@@ -240,7 +262,7 @@ export default function DeliveryLocation({ route }) {
             <TouchableOpacity
               onPress={handleSubmit}
               disabled={!isValid}
-              className={`flex items-center justify-center h-11 w-full rounded-lg bg-[#0077B6] mt-12 ${
+              className={`flex items-center justify-center h-11 w-full rounded-lg bg-[#0077B6] mt-10 ${
                 !isValid && "opacity-30"
               }`}
             >
@@ -251,6 +273,20 @@ export default function DeliveryLocation({ route }) {
           </ScrollView>
         )}
       </Formik>
+
+      <CountryPicker
+        onBackdropPress={() => setShow(false)}
+        style={{
+          modal: {
+            height: 500,
+          },
+        }}
+        show={show}
+        pickerButtonOnPress={(item) => {
+          setCountryCode(item.dial_code);
+          setShow(false);
+        }}
+      />
     </SafeAreaView>
   );
 }
