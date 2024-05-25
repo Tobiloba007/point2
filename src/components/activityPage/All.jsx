@@ -32,9 +32,11 @@ export default function All() {
 
 
      const handleDetails = (item) => {
-        const itemId = item.id
-         dispatch(getSingleActivity(setLoadDetails, navigation, itemId))
+        // const itemId = item.id
+        //  dispatch(getSingleActivity(setLoadDetails, navigation, itemId))
         //  navigation.navigate('viewDetailsPage')
+        const data = item
+        navigation.navigate("viewDetailsPage", { data });
         // console.log(itemId);
      }
 
@@ -125,9 +127,12 @@ export default function All() {
 
                       <Pressable onPress={()=>handleDetails(item)}
                       className='flex flex-row items-center justify-start'>
-                          <Text className={`text-sm text-[#0077B6] font-['bold']`}>
+                         {loadDetails
+                          ?<ActivityIndicator size="small" color="#0077B6" /> 
+                          :<Text className={`text-sm text-[#0077B6] font-['bold']`}>
                                View Details
                           </Text>
+                          }
                           <View className='mt-1 ml-1'>
                               <MaterialIcons name="arrow-forward-ios" size={12} color="#0077B6" />
                           </View>

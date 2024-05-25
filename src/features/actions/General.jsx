@@ -185,7 +185,7 @@ export const getSingleActivity =
         { headers }
       );
       if (response.status === 200) {
-        // console.log(response.data.data, 'datas')
+        console.log(response.data.data, 'datas')
         const data = response.data.data;
         navigation.navigate("viewDetailsPage", { data });
       } else if (response.status !== 200) {
@@ -218,6 +218,7 @@ export const getSingleActivity =
        const response = await axios.post(`${BASE_URL}/profile/upload-photo`, formData, { headers });
        if (response.status === 200) {
          console.log(response.data.message)
+        //  alert(response.data.message)
        } else if (response.status !== 200) {
          console.log('picture upload failed with status code:', response.status);
        } 

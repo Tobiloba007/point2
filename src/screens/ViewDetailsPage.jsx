@@ -173,6 +173,7 @@ export default function ViewDetailsPage({ route }) {
         </View>
 
         {/* PRODUCT STATUSES */}
+        {data.status === 'INTRANSIT' &&
         <View className="flex items-start justify-start w-full mt-6">
           {/* PICKED UP */}
           <View className="flex flex-row items-start justify-start w-full">
@@ -208,7 +209,7 @@ export default function ViewDetailsPage({ route }) {
               </Text>
               <View className="flex flex-row items-center justify-start mt-1">
                 <Text className={`text-sm text-[#475467] font-['medium']`}>
-                  KJ676
+                  {data.confirmation_code}
                 </Text>
                 <TouchableOpacity className="ml-2">
                   <Copy />
@@ -245,7 +246,7 @@ export default function ViewDetailsPage({ route }) {
 
             <View className="flex items-start ml-4">
               <Text className={`text-base text-[#344054] font-['bold']`}>
-                Delivered
+                Delivery Address
               </Text>
               <Text className={`text-sm text-[#475467] font-['regular']`}>
                 {data.delivery_point_location}
@@ -253,6 +254,7 @@ export default function ViewDetailsPage({ route }) {
             </View>
           </View>
         </View>
+        }
 
         {/* BUTTON */}
         {/*<View className="flex items-center justify-center mt-14">
@@ -263,6 +265,7 @@ export default function ViewDetailsPage({ route }) {
            </View>*/}
 
         {/* BUTTON */}
+        {data.status !== 'PENDING' && data.status !=='CANCELLED' &&
         <View className="flex items-center justify-center mt-14">
           <TouchableOpacity
             onPress={() => navigation.navigate("tracking", { data: data })}
@@ -273,6 +276,7 @@ export default function ViewDetailsPage({ route }) {
             </Text>
           </TouchableOpacity>
         </View>
+        }
       </ScrollView>
     </SafeAreaView>
   );
